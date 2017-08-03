@@ -82,10 +82,6 @@ DocumentVector.prototype.cosineDistanceTo = function(that) {
   return Math.acos(this.dotProduct(that) / this.euclideanNormProduct(that));
 };
 
-Number.prototype.map = function (in_min, in_max, out_min, out_max) {
-  return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
 /**
 * Static method to map the cosine distance to a value in the range [0..1]
 **/
