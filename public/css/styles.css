@@ -123,3 +123,48 @@ html, body {
   text-decoration: none;
   color: #003366;
 }
+
+@media all and (max-width: 965px) {
+  .main-option {
+    font-size: 1.5em;
+  }
+}
+
+@media all and (max-width: 620px) {
+  .main-option {
+    font-size: 1.25em;
+  }
+}
+
+@media all and (max-width: 530px) {
+  .main-option {
+    font-size: 1.15em;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .main-option {
+    font-size: 1em;
+  }
+}
+
+@media all and (max-width: 435px) {
+  .main-option {
+    font-size: 0.75em;
+  }
+}
+
+
+@media all and (max-width: 615px) {
+  .main-title {
+    font-size: 3em;
+  }
+
+  .main-title-desc {
+    font-size: 0.75em;
+  }
+
+  .main-title-link {
+    font-size: 0.75em;
+  }
+}
