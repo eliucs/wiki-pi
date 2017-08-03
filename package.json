@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.3",
-    "hbs": "^4.0.1"
+    "hbs": "^4.0.1",
+    "natural": "^0.5.4"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
