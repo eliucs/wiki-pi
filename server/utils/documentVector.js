@@ -68,14 +68,14 @@ DocumentVector.prototype.euclideanNorm = function() {
 
 /**
 * Return the product between the Euclidean norms of this token freqeuncy vector
-* and that of another DocumetVector.
+* and that of another DocumentVector.
 **/
 DocumentVector.prototype.euclideanNormProduct = function(that) {
   return this.euclideanNorm() * that.euclideanNorm();
 };
 
 /**
-* Return the cosine distance this token frequency vector and that of another
+* Return the cosine distance of this token frequency vector and that of another
 * DocumentVector.
 **/
 DocumentVector.prototype.cosineDistanceTo = function(that) {
