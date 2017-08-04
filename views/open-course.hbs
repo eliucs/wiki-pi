@@ -2,6 +2,18 @@
 <html>
   {{> head}}
   <body class="body-open-course">
-    <h1>Open course</h1>
+    {{> navbar}}
+
+    <div class="container-fluid empty-no-courses-container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="empty-no-courses">
+            You have no existing courses.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </body>
 </html>

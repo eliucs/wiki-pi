@@ -22,19 +22,31 @@ app.get('/', function(req, res) {
 });
 
 app.get('/about', function(req, res) {
-  res.render('about.hbs');
+  res.render('about.hbs', {
+    pageName: "about",
+    pageTitle: "About"
+  });
 });
 
 app.get('/help', function(req, res) {
-  res.render('help.hbs');
+  res.render('help.hbs', {
+    pageName: "help",
+    pageTitle: "Help"
+  });
 });
 
 app.get('/new-course', function(req, res) {
-  res.render('new-course.hbs');
+  res.render('new-course.hbs', {
+    pageName: "new-course",
+    pageTitle: "Create A New Course"
+  });
 });
 
 app.get('/open-course', function(req, res) {
-  res.render('open-course.hbs');
+  res.render('open-course.hbs', {
+    pageName: "open-course",
+    pageTitle: "Open An Existing Course"
+  });
 });
 
 module.exports = {
