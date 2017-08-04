@@ -13,7 +13,7 @@
             <div class="col-md-12">
               <div class="new-course-desc">
                 New courses are created by specifying an intial starting article,
-                optional ending article, and parameters for text similarity.
+                optional ending article, and a parameter for text similarity.
               </div>
             </div>
           </div>
@@ -25,6 +25,7 @@
               <div class="new-course-form">
                 <div class="form-group row course-form-item">
                   <label for="starting-article" class="col-12 col-form-label course-form-label">Starting Article</label>
+                  <label id="empty-starting-article" class="col-12 col-form-label empty-course-form-label">This cannot be empty.</label>
                   <div class="col-12">
                     <input class="form-control course-form-input" type="text" id="starting-article">
                   </div>
@@ -32,6 +33,7 @@
 
                 <div class="form-group row">
                   <label for="ending-article" class="col-12 col-form-label course-form-label">Ending Article</label>
+                  <label id="empty-ending-article" class="col-12 col-form-label empty-course-form-label">This cannot be empty.</label>
                   <div class="col-12">
                     <input class="form-control course-form-input" type="text" id="ending-article">
                   </div>
@@ -39,8 +41,9 @@
 
                 <div class="form-group row">
                   <label for="example-text-input" class="col-12 col-form-label course-form-label">Text Similarity Threshold</label>
+                  <label id="text-similarity-percent" for="text-similarity" class="col-12 col-form-label course-form-label">Slide to change:</label>
                   <div class="col-12">
-                    <input class="form-control course-form-input-range" type="range" id="example-text-input" min="0" max="100" value="50">
+                    <input class="form-control course-form-input-range" type="range" id="text-similarity" min="0" max="100" value="50">
                   </div>
                 </div>
 
@@ -51,6 +54,27 @@
 
         </div>
         <div class="col-md-3"></div>
+      </div>
+    </div>
+
+    <div id="loading-container" class="loading-container">
+      <div class="container-fluid loading-main">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <div class="loading-title">
+              Creating new course
+            </div>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <div class="loader"></div>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
       </div>
     </div>
 
