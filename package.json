@@ -2,20 +2,23 @@
   "name": "wiki-pi",
   "version": "1.0.0",
   "description": "Using machine learning and NLP to create educational content from Wikipedia.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "electron": "^1.6.11",
     "express": "^4.15.3",
     "hbs": "^4.0.1",
     "lodash": "^4.17.4",
     "natural": "^0.5.4"
   },
   "devDependencies": {
+    "eslint": "^4.3.0",
     "gulp": "^3.9.1",
     "nodemon": "^1.11.0"
   }

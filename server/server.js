@@ -52,6 +52,11 @@ app.post('/new-course', (req, res) => {
     'endingArticle',
     'textSimilarity'
   ]);
+
+  // For debug purposes:
+  console.log(body);
+
+
 });
 
 app.get('/open-course', (req, res) => {
