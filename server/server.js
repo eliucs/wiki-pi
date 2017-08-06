@@ -78,6 +78,7 @@ app.post('/new-course', (req, res) => {
     // Article found:
     console.log('Success: article found.');
     console.log(article);
+    console.log();
 
     // Find course articles limited by starting and ending articles:
     if (body.endingArticle) {
@@ -89,8 +90,9 @@ app.post('/new-course', (req, res) => {
     // Find course articles unlimited, from starting article and limited
     // solely by comparing text similarity scores:
     else {
-      const results = findArticlesUnlimited(article, body.textSimilarity);
-      // console.log(results);
+      findArticlesUnlimited(article, body.textSimilarity, (processed) => {
+        console.log(processed);
+      });  
     }
 
     return res.status(200).send({
