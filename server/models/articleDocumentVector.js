@@ -1,3 +1,8 @@
+/**
+* ArticleDocumentVector is used as a speed optimization for comparing article
+* texts, these DocumentVector's are precomputed and saved.
+**/
+
 const mongoose = require('mongoose');
 
 var ArticleDocumentVectorSchema = new mongoose.Schema({
@@ -10,9 +15,6 @@ var ArticleDocumentVectorSchema = new mongoose.Schema({
           type: String
         },
         value: {
-          type: Number
-        },
-        size: {
           type: Number
         }
     }

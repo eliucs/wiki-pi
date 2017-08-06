@@ -79,13 +79,21 @@ $("#btn-create-course").click(() => {
       data: JSON.stringify(data),
       contentType: 'application/json',
       url: '/new-course',
-      success: function(successCode) {
+      success: function(success) {
         $("#loading-container").css("display", "none");
-        console.log(successCode);
+
+        if (success.successCode === 1002) {
+            console.log('Success: article found and course generated.');
+        }
       },
-      error: function(errorCode) {
+      error: function(error) {
         $("#loading-container").css("display", "none");
-        console.log(errorCode);
+
+        if (error.responseJSON.errorCode === 2001) {
+          console.log('Error: connecting to database.');
+        } else if (error.responseJSON.errorCode === 2002) {
+          console.log('Error: no article found.');
+        }
       }
     });
   }

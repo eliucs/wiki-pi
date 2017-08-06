@@ -226,6 +226,8 @@ html, body {
   border-bottom-style: inset;
   border-radius: 0;
   outline: none;
+  font-family: 'Roboto Light';
+  font-size: 1em;
 }
 
 .course-form-item {

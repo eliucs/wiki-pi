@@ -1,20 +1,26 @@
+/**
+* ArticleAdjacencyList is used to correspond each article with their outgoing
+* links to other articles, which are represented here as an adjacency list
+* in the sense of graphs.
+**/
+
 const mongoose = require('mongoose');
 
 var ArticleAdjacencyListSchema = new mongoose.Schema({
-  _articleId: {
-    type: mongoose.Schema.Types.ObjectId
+  articleTitle: {
+    type: String
   },
   articleAdjacencyList: [
     {
-      _articleId: {
-        type: mongoose.Schema.Types.ObjectId
+      articleTitle: {
+        type: String
       }
     }
   ]
 });
 
 var ArticleAdjacencyList = mongoose.model('ArticleAdjacencyList',
-  ArticleAdjacencyListSchema);
+  ArticleAdjacencyListSchema, 'articleAdjacencyLists');
 
 module.exports = {
   ArticleAdjacencyList

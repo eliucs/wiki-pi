@@ -9,14 +9,15 @@
       <li class="nav-item">
         <a class="nav-link nav-list-item" href="/">Back</a>
       </li>
-
-
+      {{#if new}}
       <li class="nav-item">
-        <a class="nav-link nav-list-item" href="/">{{pageName}}</a>
+        <a class="nav-link nav-list-item" href="/open-course">Open An Existing Course</a>
       </li>
-
-
-
+      {{else }}
+      <li class="nav-item">
+        <a class="nav-link nav-list-item" href="/new-course">Create A New Course</a>
+      </li>
+      {{/if }}
       <li class="nav-item">
         <a class="nav-link nav-list-item" href="/about">About</a>
       </li>

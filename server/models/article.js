@@ -1,3 +1,8 @@
+/**
+* Article stores Objects containing the article's title and body, which
+* is a list of Objects of the sections of that article.
+**/
+
 const mongoose = require('mongoose');
 
 var ArticleSchema = new mongoose.Schema({
