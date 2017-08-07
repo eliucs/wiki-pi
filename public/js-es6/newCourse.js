@@ -83,7 +83,8 @@ $("#btn-create-course").click(() => {
         $("#loading-container").css("display", "none");
 
         if (success.successCode === 1002) {
-            console.log('Success: article found and course generated.');
+          alert('Test');
+          console.log('Success: article found and course generated.');
         }
       },
       error: function(error) {
