@@ -1,5 +1,8 @@
 /**
-* Client side JavaScript for new course page
+* newCourse.js
+*
+* Client side code to validate fields, send AJAX requests to the server for
+* new course creations, displays loading screen.
 **/
 
 const errorFields = ["#empty-starting-article"];
@@ -42,8 +45,8 @@ $("#text-similarity").mousemove(() => {
 $("#btn-create-course").click(() => {
   const startingArticle = typeof($("#starting-article").val()) == 'undefined' ?
   "" : $("#starting-article").val();
-  const endingArticle = typeof($("#ending-article").val()) == 'undefined' ?
-  "" : $("#ending-article").val();
+  // const endingArticle = typeof($("#ending-article").val()) == 'undefined' ?
+  // "" : $("#ending-article").val();
   const textSimilarity = $("#text-similarity").val();
 
   // For debugging:
@@ -70,7 +73,6 @@ $("#btn-create-course").click(() => {
 
     var data = {
       startingArticle: startingArticle,
-      endingArticle: endingArticle,
       textSimilarity: textSimilarity
     };
 
@@ -82,19 +84,19 @@ $("#btn-create-course").click(() => {
       success: function(success) {
         $("#loading-container").css("display", "none");
 
-        if (success.successCode === 1002) {
-          alert('Test');
-          console.log('Success: article found and course generated.');
-        }
+        // if (success.successCode === 1002) {
+        //   alert('Test');
+        //   console.log('Success: article found and course generated.');
+        // }
       },
       error: function(error) {
         $("#loading-container").css("display", "none");
 
-        if (error.responseJSON.errorCode === 2001) {
-          console.log('Error: connecting to database.');
-        } else if (error.responseJSON.errorCode === 2002) {
-          console.log('Error: no article found.');
-        }
+        // if (error.responseJSON.errorCode === 2001) {
+        //   console.log('Error: connecting to database.');
+        // } else if (error.responseJSON.errorCode === 2002) {
+        //   console.log('Error: no article found.');
+        // }
       }
     });
   }

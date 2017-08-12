@@ -34,7 +34,6 @@ html, body {
   height: 100%;
 }
 
-/* Footer */
 .footer-main {
   position: absolute;
   bottom: 0.5em;
@@ -56,7 +55,6 @@ html, body {
   color: #add8e6;
 }
 
-/* Home Page */
 .main-area {
   width: 50%;
   float: left;
@@ -173,7 +171,6 @@ html, body {
   }
 }
 
-/* Navbar */
 .navbar-main-btn {
   margin-top: 0.1em;
   outline: none !important;
@@ -193,7 +190,6 @@ html, body {
   font-family: 'Roboto Light';
 }
 
-/* Create New Course, Open Existing Course */
 .body-new-course {
   background-color: #f1f1f1;
 }
@@ -205,6 +201,126 @@ html, body {
   width: auto;
   height: auto;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.new-course-title {
+  font-family: 'Roboto Thin';
+  font-size: 2.25em;
+  margin-top: 0.5em;
+}
+
+.new-course-results-container {
+  margin-bottom: 3em;
+}
+
+.new-course-results-btn-container {
+  position: fixed;
+  z-index: 99;
+  bottom: 1em;
+  width: 100%;
+  height: 5em;
+  text-align: center;
+}
+
+.btn-create-course-finish {
+  background-color: #0D47A1;
+  border: none;
+  padding: 1em;
+  font-family: 'Roboto Light';
+  font-size: 1em;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0.1em;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.24);
+}
+
+.btn-create-course-finish:hover {
+  background-color: #1565C0;
+}
+
+.btn-create-course-finish:active {
+  background-color: #1976D2;
+}
+
+.new-course-results-title {
+  font-family: 'Roboto Thin';
+  font-size: 2.25em;
+  margin-top: 0.5em;
+}
+
+.new-course-results-articles-found {
+  font-family: 'Roboto Light';
+  font-size: 1em;
+}
+
+.new-course-results-article-card {
+  background-color: #fff;
+  padding: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.1em;
+  width: auto;
+  height: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  cursor: pointer;
+}
+
+.new-course-results-article-card:hover {
+  color: #7997a1;
+}
+
+.new-course-results-article-card-title {
+  font-family: 'Roboto Light';
+  font-size: 1em;
+}
+
+.new-course-results-article-preview-container {
+  background-color: #fff;
+  padding: 2em;
+  margin-top: 0.3em;
+  margin-left: 4em;
+  width: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.new-course-results-article-preview-container h1,
+.new-course-results-article-preview-container h2,
+.new-course-results-article-preview-container h3,
+.new-course-results-article-preview-container h4,
+.new-course-results-article-preview-container h5,
+.new-course-results-article-preview-container h6 {
+  font-family: 'Roboto Light';
+}
+
+.new-course-results-article-preview-container h1 {
+  font-size: 2.2em;
+}
+
+.new-course-results-article-preview-container h2 {
+  font-size: 1.8em;
+}
+
+.new-course-results-article-preview-container h3 {
+  font-size: 1.4em;
+}
+
+.new-course-results-article-preview-container h4 {
+  font-size: 1.3em;
+}
+
+.new-course-results-article-preview-container h5 {
+  font-size: 1.2em;
+}
+
+.new-course-results-article-preview-container h6 {
+  font-size: 1.1em;
+}
+
+.new-course-results-article-preview-container p {
+  font-family: 'Roboto Light';
+  font-size: 1em;
 }
 
 .new-course-desc {
@@ -364,4 +480,69 @@ html, body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.new-course-success-container{
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.5);
+  display: block;
+}
+
+.new-course-success-main {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+}
+
+.success-container {
+  background-color: #fff;
+  opacity: 0.75;
+  width: 100%;
+  height: 15em;
+  border-radius: 0.25em;
+}
+
+.success-title {
+  padding-top: 1em;
+  font-family: 'Roboto Medium';
+  font-size: 1.5em;
+  color: #000;
+}
+
+.success-desc {
+  padding-top: 0.5em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-family: 'Roboto Light';
+  font-size: 1em;
+  color: #000;
+  text-align: left;
+}
+
+.btn-goto-course {
+  background-color: #0D47A1;
+  border: none;
+  padding: 1em;
+  font-family: 'Roboto Light';
+  font-size: 1em;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-goto-course:hover {
+  background-color: #1565C0;
+}
+
+.btn-goto-course:active {
+  background-color: #1976D2;
 }
