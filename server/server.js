@@ -2,11 +2,13 @@ require('./config/config');
 
 const bodyParser = require('body-parser');
 const express = require('express');
+const fuzzy = require('fuzzy');
 const path = require('path');
 const hbs = require('hbs');
 const _ = require('lodash');
 
 // const codes = require('./utils/codes');
+const indexArticleTitles = require('./../testing/article-index-titles.json');
 
 var app = express();
 
@@ -58,11 +60,6 @@ app.post('/new-course', (req, res) => {
   ]);
 
   console.log(body);
-
-
-
-
-
 });
 
 app.get('/new-course-results', (req, res) => {
@@ -80,6 +77,23 @@ app.get('/open-course', (req, res) => {
     pageTitle: "Open An Existing Course",
     new: 0
   });
+});
+
+app.get('/search-courses', (req, res) => {
+  const searchQuery = req.query.q;
+
+  var searchResultsList = indexArticleTitles
+  .map((entry) => {
+      return entry.title
+  });
+
+  var searchResults = fuzzy
+  .filter(searchQuery, searchResultsList)
+  .map(function(entry) {
+    return entry.string;
+  });
+
+  return res.send(searchResults);
 });
 
 module.exports = {

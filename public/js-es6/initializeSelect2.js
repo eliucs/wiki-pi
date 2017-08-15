@@ -6,29 +6,35 @@
 *
 **/
 
-$("#course-form-search").select2({
+$('#course-form-search').select2({
   placeholder: 'Search for articles...',
   ajax: {
-    url: "https://api.github.com/search/repositories",
+    url: "/search-courses",
+    type: 'GET',
     dataType: 'json',
     delay: 250,
     data: function(params) {
       return {
-        q: params.term,
-        page: params.page
+        q: params.term
       };
     },
-    processResults: function (data, params) {
-      params.page = params.page || 1;
-
+    processResults: function (data) {
+      var arr = [];
+      $.each(data, function (index, value) {
+          arr.push({
+              id: index+1,
+              text: value
+          });
+      });
       return {
-        results: data.items,
-        pagination: {
-          more: (params.page * 30) < data.total_count
-        }
+          results: arr
       };
     },
     cache: true
   },
+  escapeMarkup: function (markup) {
+    return markup;
+  },
   minimumInputLength: 1,
-});
+})
+.trigger('change.select2');
