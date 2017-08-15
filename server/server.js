@@ -6,7 +6,7 @@ const path = require('path');
 const hbs = require('hbs');
 const _ = require('lodash');
 
-const codes = require('./utils/codes');
+// const codes = require('./utils/codes');
 
 var app = express();
 
@@ -56,6 +56,8 @@ app.post('/new-course', (req, res) => {
     'endingArticle',
     'textSimilarity'
   ]);
+
+  console.log(body);
 
 
 

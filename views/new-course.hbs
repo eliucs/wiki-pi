@@ -33,12 +33,11 @@
 
               <!-- New Course Form -->
               <div class="new-course-form">
+
                 <div class="form-group row course-form-item">
                   <label for="starting-article" class="col-12 col-form-label course-form-label">Starting Article</label>
                   <label id="empty-starting-article" class="col-12 col-form-label empty-course-form-label">This cannot be empty.</label>
-                  <div class="col-12">
-                    <input class="form-control course-form-input" type="text" id="starting-article">
-                  </div>
+                  <select id="course-form-search" class="course-form-search"></select>
                 </div>
 
                 <div class="form-group row">
@@ -80,6 +79,7 @@
       </div>
     </div>
 
+    <script type="text/javascript" src="js-es6/initializeSelect2.js"></script>
     <script type="text/javascript" src="js-es6/newCourse.js"></script>
 
   </body>

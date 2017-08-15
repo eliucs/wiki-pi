@@ -3,3 +3,4 @@ playground
 *.log
 server/config/config.json
 .idea
+testing

@@ -42,17 +42,14 @@ $("#text-similarity").mousemove(() => {
   $("#text-similarity-percent").css("color", color);
 });
 
+
+
+
+
 $("#btn-create-course").click(() => {
   const startingArticle = typeof($("#starting-article").val()) == 'undefined' ?
   "" : $("#starting-article").val();
-  // const endingArticle = typeof($("#ending-article").val()) == 'undefined' ?
-  // "" : $("#ending-article").val();
   const textSimilarity = $("#text-similarity").val();
-
-  // For debugging:
-  // console.log(startingArticle);
-  // console.log(endingArticle);
-  // console.log(textSimilarity);
 
   var errors = verifyFields(startingArticle);
 

@@ -255,7 +255,7 @@ html, body {
 
 .new-course-results-article-card {
   background-color: #fff;
-  padding: 1em;
+  padding: 1em !important;
   margin-left: 1em;
   margin-right: 1em;
   margin-top: 0.5em;
@@ -337,6 +337,22 @@ html, body {
   font-size: 1em;
 }
 
+.course-form-search {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: 'Roboto Light';
+  font-size: 1em;
+}
+
+/* Select2 Dropdown */
+body > div.container-fluid > div:nth-child(2) > div.col-md-6.new-course-container > div:nth-child(2) > div > div > div.form-group.row.course-form-item > span {
+  margin-left: 1em;
+  margin-right: 1em;
+  font-family: 'Roboto Light';
+  font-size: 1em;
+}
+
 .course-form-input {
   border: none;
   border-bottom-style: inset;
@@ -387,9 +403,11 @@ html, body {
 }
 
 .empty-course-form-label {
+  padding-top: 0;
   font-family: 'Roboto Light';
   font-size: 1em;
   color: #B71C1C;
+
 }
 
 #empty-starting-article {
