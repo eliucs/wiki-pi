@@ -5,10 +5,6 @@ const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
 const _ = require('lodash');
-// const {mongoose} = require('./db/mongoose');
-const {Article} = require('./models/article');
-const {findArticlesLimited} = require('./utils/findArticlesLimited');
-const {findArticlesUnlimited} = require('./utils/findArticlesUnlimited');
 
 const codes = require('./utils/codes');
 
@@ -61,87 +57,10 @@ app.post('/new-course', (req, res) => {
     'textSimilarity'
   ]);
 
-  // For debug purposes:
-  // console.log(body.startingArticle);
-  //
-  // const textSimilarity = body.textSimilarity;
-  //
-  // Article.findOne({
-  //   articleTitle: body.startingArticle
-  // })
-  // .then((startingArticle) => {
-  //   // No article found:
-  //   if (!startingArticle) {
-  //     console.log('Error: no article found.');
-  //     return res.status(400).send({
-  //       errorCode: codes.ERROR_NO_ARTICLE_FOUND
-  //     });
-  //   }
-  //
-  //   // Article found:
-  //   console.log('Success: starting article found.');
-  //   console.log(startingArticle);
-  //   console.log();
-  //
-  //   // Find course articles limited by starting and ending articles, and
-  //   // compraring text similarity score between intermediate articles:
-  //   if (body.endingArticle) {
-  //
-  //     Article.findOne({
-  //       articleTitle: body.endingArticle
-  //     })
-  //     .then((endingArticle) => {
-  //       // No article found:
-  //       if (!endingArticle) {
-  //         console.log('Error: no article found.');
-  //         return res.status(400).send({
-  //           errorCode: codes.ERROR_NO_ARTICLE_FOUND
-  //         });
-  //       }
-  //
-  //       // Article found:
-  //       console.log('Success: ending article found.');
-  //       console.log(endingArticle);
-  //       console.log();
-  //
-  //       findArticlesLimited(startingArticle, endingArticle,
-  //                           textSimilarity, (processed) => {
-  //         console.log(processed);
-  //
-  //         return res.status(200).send({
-  //           successCode: codes.SUCCESS_COURSE_ARTICLES_FOUND
-  //         });
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       // Error connecting to database:
-  //       console.log('Error: connecting to database.');
-  //       console.log(error);
-  //       return res.status(400).send({
-  //         errorCode: codes.ERROR_CONNECTING_TO_DB
-  //       });
-  //     });
-  //   }
-  //   // Find course articles unlimited, from starting article and limited
-  //   // solely by comparing text similarity scores:
-  //   else {
-  //     findArticlesUnlimited(startingArticle, textSimilarity, (processed) => {
-  //       console.log(processed);
-  //
-  //       return res.status(200).send({
-  //         successCode: codes.SUCCESS_COURSE_ARTICLES_FOUND
-  //       });
-  //     });
-  //   }
-  // })
-  // .catch((error) => {
-  //   // Error connecting to database:
-  //   console.log('Error: connecting to database.');
-  //   console.log(error);
-  //   return res.status(400).send({
-  //     errorCode: codes.ERROR_CONNECTING_TO_DB
-  //   });
-  // });
+
+
+
+
 });
 
 app.get('/new-course-results', (req, res) => {
