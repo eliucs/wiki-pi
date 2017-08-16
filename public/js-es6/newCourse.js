@@ -42,13 +42,9 @@ $("#text-similarity").mousemove(() => {
   $("#text-similarity-percent").css("color", color);
 });
 
-
-
-
-
 $("#btn-create-course").click(() => {
-  const startingArticle = typeof($("#starting-article").val()) == 'undefined' ?
-  "" : $("#starting-article").val();
+  const startingArticle = $("#course-form-search").find(":selected").text();
+  console.log(startingArticle);
   const textSimilarity = $("#text-similarity").val();
 
   var errors = verifyFields(startingArticle);
@@ -74,25 +70,25 @@ $("#btn-create-course").click(() => {
     };
 
     $.ajax({
-      type: 'POST',
+      type: "POST",
       data: JSON.stringify(data),
-      contentType: 'application/json',
-      url: '/new-course',
+      contentType: "application/json",
+      url: "/new-course",
       success: function(success) {
         $("#loading-container").css("display", "none");
 
         // if (success.successCode === 1002) {
-        //   alert('Test');
-        //   console.log('Success: article found and course generated.');
+        //   alert("Test");
+        //   console.log("Success: article found and course generated.");
         // }
       },
       error: function(error) {
         $("#loading-container").css("display", "none");
 
         // if (error.responseJSON.errorCode === 2001) {
-        //   console.log('Error: connecting to database.');
+        //   console.log("Error: connecting to database.");
         // } else if (error.responseJSON.errorCode === 2002) {
-        //   console.log('Error: no article found.');
+        //   console.log("Error: no article found.");
         // }
       }
     });
@@ -102,7 +98,7 @@ $("#btn-create-course").click(() => {
 function verifyFields(startingArticle) {
   var errors = [];
 
-  if (typeof(startingArticle) == 'undefined' || startingArticle.length == 0) {
+  if (typeof(startingArticle) == "undefined" || startingArticle.length == 0) {
     errors.push("#empty-starting-article");
   }
 
