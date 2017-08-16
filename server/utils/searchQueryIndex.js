@@ -16,8 +16,8 @@ const db = new sqlite.Database(INDEX_LOCATION)
 
 const searchQueryIndex = (searchQuery, callback) => {
   // Check if searchQuery is not null, otherwise callback undefined data:
-  console.log('Error: searched with null searchQuery.');
   if (!searchQuery) {
+    console.log('Error: searched with null searchQuery.');
     return callback(undefined, undefined);
   }
 
