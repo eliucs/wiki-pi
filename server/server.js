@@ -1,11 +1,11 @@
 require('./config/config');
 
+const _ = require('lodash');
 const bodyParser = require('body-parser');
 const express = require('express');
 const fuzzy = require('fuzzy');
 const path = require('path');
 const hbs = require('hbs');
-const _ = require('lodash');
 
 // const codes = require('./utils/codes');
 const indexArticleTitles = require('./../testing/article-index-titles.json');
@@ -92,6 +92,8 @@ app.get('/search-courses', (req, res) => {
   .map(function(entry) {
     return entry.string;
   });
+
+  console.log(searchResults);
 
   return res.send(searchResults);
 });
