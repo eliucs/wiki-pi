@@ -6,6 +6,8 @@
 *
 **/
 
+let counter = 1;
+
 $('#course-form-search').select2({
   placeholder: 'Search for articles...',
   ajax: {
@@ -19,22 +21,21 @@ $('#course-form-search').select2({
       };
     },
     processResults: function (data) {
-      var arr = [];
+      let arr = [];
       $.each(data, function (index, value) {
           arr.push({
-              id: index+1,
+              id: index+counter,
               text: value
           });
+          counter++;
       });
       return {
           results: arr
       };
     },
-    cache: true
+    cache: false
   },
-  escapeMarkup: function (markup) {
-    return markup;
-  },
+  allowClear: true,
   minimumInputLength: 1,
-})
-.trigger('change.select2');
+}, true)
+.trigger('change');
