@@ -9,6 +9,7 @@ const hbs = require('hbs');
 
 // const codes = require('./utils/codes');
 const indexArticleTitles = require('./../testing/article-index-titles.json');
+const {searchQueryIndex} = require('./utils/searchQueryIndex');
 
 var app = express();
 
@@ -82,20 +83,14 @@ app.get('/open-course', (req, res) => {
 app.get('/search-courses', (req, res) => {
   const searchQuery = req.query.q;
 
-  var searchResultsList = indexArticleTitles
-  .map((entry) => {
-      return entry.title
+  searchQueryIndex(searchQuery, (err, results) => {
+    // Check if there was an error:
+    if (err) {
+      console.log('Error: retrieving search results from index.');
+      return res.status(400).send();
+    }
+    return res.status(200).send(results);
   });
-
-  var searchResults = fuzzy
-  .filter(searchQuery, searchResultsList)
-  .map(function(entry) {
-    return entry.string;
-  });
-
-  console.log(searchResults);
-
-  return res.send(searchResults);
 });
 
 module.exports = {
