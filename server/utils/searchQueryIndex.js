@@ -12,13 +12,15 @@ const path = require('path');
 const sqlite = require('sqlite3').verbose();
 
 const INDEX_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/index/index.db');
-const db = new sqlite.Database(INDEX_LOCATION)
+
 
 const searchQueryIndex = (searchQuery, callback) => {
+  const db = new sqlite.Database(INDEX_LOCATION);
+
   // Check if searchQuery is not null, otherwise callback undefined data:
   if (!searchQuery) {
     console.log('Error: searched with null searchQuery.');
-    return callback(undefined, undefined);
+    return callback(undefined, undefined, db);
   }
 
   db.serialize(() => {
@@ -28,20 +30,18 @@ const searchQueryIndex = (searchQuery, callback) => {
                    LIKE "${searchQuery}%"
                    LIMIT 10;`;
 
-    let results = [];
-
     db.all(query, (err, results) => {
       // Check if there was a database error:
       if (err) {
         console.log('Error: retrieving search results after quering index.db.');
-        return callback(true, undefined);
+        return callback(true, undefined, db);
       }
 
       results = results.map((x) => {
         return x.title;
       });
 
-      return callback(undefined, results);
+      return callback(undefined, results, db);
     });
   });
 };

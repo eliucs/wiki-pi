@@ -8,9 +8,9 @@
 const errorFields = ["#empty-starting-article"];
 
 $("#text-similarity").mousemove(() => {
-  var percent = $("#text-similarity").val();
-  var text = percent + "%";
-  var color;
+  const percent = $("#text-similarity").val();
+  let text = percent + "%";
+  let color;
 
   if (percent == 100) {
     text += " Exactly the same"
@@ -47,7 +47,7 @@ $("#btn-create-course").click(() => {
   console.log(startingArticle);
   const textSimilarity = $("#text-similarity").val();
 
-  var errors = verifyFields(startingArticle);
+  let errors = verifyFields(startingArticle);
 
   if (errors.length > 0) {
     errorFields.forEach((error) => {
@@ -64,7 +64,7 @@ $("#btn-create-course").click(() => {
       $(error).css("display", "none");
     });
 
-    var data = {
+    let data = {
       startingArticle: startingArticle,
       textSimilarity: textSimilarity
     };
@@ -96,7 +96,7 @@ $("#btn-create-course").click(() => {
 });
 
 function verifyFields(startingArticle) {
-  var errors = [];
+  let errors = [];
 
   if (typeof(startingArticle) == "undefined" || startingArticle.length == 0) {
     errors.push("#empty-starting-article");

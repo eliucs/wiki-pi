@@ -7,8 +7,9 @@ const fuzzy = require('fuzzy');
 const path = require('path');
 const hbs = require('hbs');
 
-// const codes = require('./utils/codes');
-const indexArticleTitles = require('./../testing/article-index-titles.json');
+const codes = require('./utils/codes');
+const {normalizePercentage} = require('./utils/normalizePercentage');
+const {searchArticles} = require('./utils/searchArticles');
 const {searchQueryIndex} = require('./utils/searchQueryIndex');
 
 var app = express();
@@ -33,40 +34,71 @@ app.get('/', (req, res) => {
 
 app.get('/about', (req, res) => {
   res.render('about.hbs', {
-    pageName: "about",
-    pageTitle: "About"
+    pageName: 'about',
+    pageTitle: 'About'
   });
 });
 
 app.get('/help', (req, res) => {
   res.render('help.hbs', {
-    pageName: "help",
-    pageTitle: "Help"
+    pageName: 'help',
+    pageTitle: 'Help'
   });
 });
 
 app.get('/new-course', (req, res) => {
   res.render('new-course.hbs', {
-    pageName: "new-course",
-    pageTitle: "Create A New Course",
+    pageName: 'new-course',
+    pageTitle: 'Create A New Course',
     new: 1
   });
 });
 
+app.get('/search-courses', (req, res) => {
+  const searchQuery = req.query.q;
+
+  searchQueryIndex(searchQuery, (err, results, db) => {
+    // Close the database connection:
+    db.close();
+
+    // Check if there was an error:
+    if (err) {
+      console.log('Error: retrieving search results from index.');
+      return res.status(400).send();
+    }
+    return res.status(200).send(results);
+  });
+});
+
 app.post('/new-course', (req, res) => {
-  var body = _.pick(req.body, [
+  let body = _.pick(req.body, [
     'startingArticle',
-    'endingArticle',
     'textSimilarity'
   ]);
 
-  console.log(body);
+  const startingArticle = body.startingArticle;
+  const textSimilarity = normalizePercentage(body.textSimilarity);
+
+  searchArticles(startingArticle, textSimilarity, (err, results, dbList) => {
+    // Close the database connection:
+    dbList.forEach((db) => {
+      db.close();
+    });
+
+    // Check if there was an error:
+    if (err) {
+      console.log('Error: retrieving search results from index.');
+      return res.status(400).send();
+    }
+
+    console.log('done search');
+  });
 });
 
 app.get('/new-course-results', (req, res) => {
   res.render('new-course-results.hbs', {
-    pageName: "new-course-results",
-    pageTitle: "New Course Results",
+    pageName: 'new-course-results',
+    pageTitle: 'New Course Results',
     new: 0,
     articlesFound: 10
   });
@@ -74,22 +106,9 @@ app.get('/new-course-results', (req, res) => {
 
 app.get('/open-course', (req, res) => {
   res.render('open-course.hbs', {
-    pageName: "open-course",
-    pageTitle: "Open An Existing Course",
+    pageName: 'open-course',
+    pageTitle: 'Open An Existing Course',
     new: 0
-  });
-});
-
-app.get('/search-courses', (req, res) => {
-  const searchQuery = req.query.q;
-
-  searchQueryIndex(searchQuery, (err, results) => {
-    // Check if there was an error:
-    if (err) {
-      console.log('Error: retrieving search results from index.');
-      return res.status(400).send();
-    }
-    return res.status(200).send(results);
   });
 });
 
