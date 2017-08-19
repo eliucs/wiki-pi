@@ -17,7 +17,8 @@
     "hbs": "^4.0.1",
     "lodash": "^4.17.4",
     "natural": "^0.5.4",
-    "sqlite-sync": "^0.3.6"
+    "sqlite-sync": "^0.3.6",
+    "sqlite3": "^3.1.9"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
