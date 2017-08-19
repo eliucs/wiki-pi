@@ -4,16 +4,16 @@
 *
 * This module queries the articles databases (located at /Voumes/WIKI-DRIVE/
 * articles/) and the adjacency databases (located at /Volumes/WIKI-DRIVE/
-* adj/) and uses breadth first search to traverse from the starting article
-* to its outgoing articles.
+* adj/) and uses breadth first search (BFS) to traverse from the starting
+* article to its outgoing articles.
 *
 * As the algorithm is traversing this graph of articles, they are filtered by
 * comparing their DocumentVector cosine distances to the given text
 * similarity threshold. Articles that are below the threshold are dropped and
-* its adjacency list is not further considered in the graph traversal.
+* their adjacency lists are not further considered in the graph traversal.
 *
-* Since we need to use a Queue (synchronously) for breadth first search, we
-* use the sqlite-sync module to make synchronous requests to the databases.
+* Since we need to use a Queue (synchronously) for BFS, we use the sqlite-sync
+* module to make synchronous requests to the database.
 *
 **/
 
@@ -41,8 +41,11 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
                                         WHERE title = "${startingArticle}"
                                         LIMIT 1;`)[0];
   sqlite.close();
+
+  // For debug purposes:
   console.log(startingArticleIndex);
   console.log(`${ARTICLE_LOCATION}/${startingArticleIndex.location}.db`);
+
   sqlite.connect(`${ARTICLE_LOCATION}/${startingArticleIndex.location}.db`);
   let startingArticleData = sqlite.run(`SELECT title, content
                                         FROM articles_table
@@ -53,10 +56,19 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
   let results = [];
   let queue = [];
   let dvStartingArticle = convertToDocumentVector(startingArticleData);
+
+  // For debug purposes:
+  // console.log(dvStartingArticle);
+
+  // Initialize visited and queue to contain starting article:
   visited.add(startingArticle);
+  queue.push(startingArticle);
 
-
-  console.log(dvStartingArticle);
+  // Start BFS:
+  while (queue && queue.length > 0) {
+    current = queue.shift();
+    console.log(current);
+  }
 };
 
 module.exports = {

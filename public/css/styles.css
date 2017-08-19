@@ -186,8 +186,21 @@ html, body {
   font-size: 1.5em;
 }
 
+.navbar-title a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-title a:hover {
+  color: #d4ebf2;
+}
+
 .nav-list-item {
   font-family: 'Roboto Light';
+}
+
+.offset-top {
+  margin-top: 5em;
 }
 
 .body-new-course {
@@ -206,7 +219,6 @@ html, body {
 .new-course-title {
   font-family: 'Roboto Thin';
   font-size: 2.25em;
-  margin-top: 0.5em;
 }
 
 .new-course-results-container {
@@ -245,7 +257,6 @@ html, body {
 .new-course-results-title {
   font-family: 'Roboto Thin';
   font-size: 2.25em;
-  margin-top: 0.5em;
 }
 
 .new-course-results-articles-found {
