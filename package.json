@@ -4,7 +4,8 @@
   "description": "Platform using Wikipedia to generate courses as a low-cost educational resource alternative.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server/server.js"
+    "start": "node server/server.js",
+    "test": "nodemon server/server.js"
   },
   "author": "Eric Liu",
   "license": "MIT",
