@@ -203,7 +203,10 @@ html, body {
   margin-top: 5em;
 }
 
-.body-new-course,
+.body-new-course {
+  background-color: #f1f1f1;
+}
+
 .body-new-course-results {
   background-color: #f1f1f1;
   overflow: hidden;
@@ -219,7 +222,6 @@ html, body {
   background-color: #fff;
   padding: 1em;
   margin: 1em;
-  width: auto;
   height: auto;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
@@ -368,7 +370,7 @@ html, body {
 }
 
 .course-form-search {
-  width: 100%;
+  position: relative;
   border: none;
   outline: none;
   font-family: 'Roboto Light';
@@ -376,9 +378,12 @@ html, body {
 }
 
 /* Select2 Dropdown */
-body > div.container-fluid > div:nth-child(2) > div.col-md-6.new-course-container > div:nth-child(2) > div > div > div.form-group.row.course-form-item > span {
+body > div.container-fluid > div:nth-child(2) >
+div.col-md-6.new-course-container > div:nth-child(2) >
+div > div > div.form-group.row.course-form-item > span {
   margin-left: 1em;
   margin-right: 1em;
+  width: 100% !important;
   font-family: 'Roboto Light';
   font-size: 1em;
 }

@@ -9,6 +9,7 @@
 let counter = 1;
 
 $('#course-form-search').select2({
+  width: 'auto',
   placeholder: 'Search for articles...',
   ajax: {
     url: "/search-courses",
