@@ -137,7 +137,7 @@ html, body {
   }
 
   .main-option {
-    margin-left: 2em;
+    margin-left: 10%;
   }
 
   .footer-content {
@@ -159,6 +159,25 @@ html, body {
 @media all and (max-width: 965px) {
   .main-option {
     font-size: 1.5em;
+  }
+}
+
+@media all and (max-width: 320px) {
+  .main-title {
+    font-size: 2em;
+  }
+
+  .main-title-desc {
+    font-size: 1em;
+    margin-bottom: 1em;
+  }
+
+  .main-title-link {
+    font-size: 1em;
+  }
+
+  .main-option {
+    font-size: 1.25em;
   }
 }
 
