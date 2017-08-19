@@ -79,11 +79,13 @@ app.post('/new-course', (req, res) => {
   const startingArticle = body.startingArticle;
   const textSimilarity = normalizePercentage(body.textSimilarity);
 
-  searchArticles(startingArticle, textSimilarity, (err, results, dbList) => {
+  searchArticles(startingArticle, textSimilarity, (err, results, db) => {
     // Close the database connection:
-    dbList.forEach((db) => {
-      db.close();
-    });
+    if (dbConnected) {
+      dbConnected.forEach((db) => {
+        db.close();
+      });
+    }
 
     // Check if there was an error:
     if (err) {
@@ -91,7 +93,7 @@ app.post('/new-course', (req, res) => {
       return res.status(400).send();
     }
 
-    console.log('done search');
+    console.log('Done Search');
   });
 });
 
