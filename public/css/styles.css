@@ -126,7 +126,7 @@ html, body {
   color: #0D47A1;
 }
 
-@media all and (max-width: 768px) {
+@media all and (orientation: portrait) and (max-width: 768px) {
   .main-left {
     width: 100%;
     height: 50%;
@@ -156,18 +156,121 @@ html, body {
   }
 }
 
-@media all and (max-width: 965px) {
+@media all and (orientation: portrait) and (max-width: 414px) {
+  .main-title {
+    font-size: 2.25em;
+  }
+
+  .main-title-desc {
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 1.25em;
+    margin-bottom: 1em;
+  }
+
+  .main-title-link {
+    font-size: 1.25em;
+  }
+
+  .main-option {
+    font-size: 1.75em;
+  }
+}
+
+@media all and (orientation: portrait) and (max-width: 375px) {
+  .main-title {
+    font-size: 2.25em;
+  }
+
+  .main-title-desc {
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 1.25em;
+    margin-bottom: 1em;
+  }
+
+  .main-title-link {
+    font-size: 1.25em;
+  }
+
   .main-option {
     font-size: 1.5em;
   }
 }
 
-@media all and (max-width: 320px) {
+@media all and (orientation: portrait) and (max-width: 320px) {
   .main-title {
     font-size: 2em;
   }
 
   .main-title-desc {
+    font-size: 1em;
+    margin-bottom: 1em;
+  }
+
+  .main-title-link {
+    font-size: 1em;
+  }
+
+  .main-option {
+    font-size: 1.25em;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .main-option {
+    font-size: 1.75em;
+  }
+}
+
+@media all and (max-width: 865px) {
+  .main-option {
+    font-size: 1.5em;
+  }
+}
+
+@media all and (max-height: 414px) {
+  .main-title {
+    font-size: 2.25em;
+  }
+
+  .main-title-desc {
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 1.25em;
+    margin-bottom: 1em;
+  }
+
+  .main-title-link {
+    font-size: 1.25em;
+  }
+
+  .main-option {
+    font-size: 1.5em;
+  }
+}
+
+@media all and (max-height: 375px) {
+  .main-title-desc {
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 1em;
+    margin-bottom: 1em;
+  }
+
+  .main-title-link {
+    font-size: 1em;
+  }
+
+  .main-option {
+    font-size: 1.25em;
+  }
+}
+
+@media all and (max-height: 320px) {
+  .main-title-desc {
+    margin-left: 1em;
+    margin-right: 1em;
     font-size: 1em;
     margin-bottom: 1em;
   }
