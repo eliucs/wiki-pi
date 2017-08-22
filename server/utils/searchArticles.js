@@ -20,28 +20,36 @@
 const path = require('path');
 const sqlite = require('sqlite-sync');
 
+const codes = require('./codes');
+const { convertToDocumentVector } = require('./convertToDocumentVector');
 const DocumentVector = require('./documentVector');
-const {convertToDocumentVector} = require('./convertToDocumentVector');
+const { isEmpty } = require('./isEmpty');
 
 const INDEX_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/index/index.db');
 const ARTICLE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/articles');
 const ADJ_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/adj');
 
 const searchArticles = (startingArticle, textSimilarity, callback) => {
+  // For debug purposes:
   console.log(startingArticle, textSimilarity);
 
   if (!startingArticle) {
     console.log('Error: searched with null startingArticle.');
-    return callback(undefined, undefined, undefined);
+    return callback(codes.ERROR_NULL_STARTING_ARTICLE, undefined);
   }
 
-  // Get starting article data:
+  // Get starting article index data:
   sqlite.connect(INDEX_LOCATION);
   let startingArticleIndex = sqlite.run(`SELECT title, location
                                         FROM index_table
                                         WHERE title = "${startingArticle}"
                                         LIMIT 1;`)[0];
   sqlite.close();
+
+  if (!startingArticleIndex || isEmpty(startingArticleIndex)) {
+    console.log('Error: problem retrieving starting article index.');
+    return callback(codes.ERROR_RETRIEVING_STARTING_ARTICLE_INDEX, undefined);
+  }
 
   // For debug purposes:
   // console.log(startingArticleIndex);
@@ -54,13 +62,15 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
                                         LIMIT 1;`)[0];
   sqlite.close();
 
+  if (!startingArticleData || isEmpty(startingArticleData)) {
+    console.log('Error: problem retrieving starting article data.');
+    return callback(codes.ERROR_RETRIEVING_STARTING_ARTICLE_DATA, undefined);
+  }
+
   let visited = new Set(); // Set of string titles
   let results = []; // List of (title, location) pairs, in order of traversal
   let queue = []; // List of (title, location) pairs
   let dvStartingArticle = convertToDocumentVector(startingArticleData);
-
-  // For debug purposes:
-  // console.log(dvStartingArticle);
 
   // Initialize visited and queue to contain starting article:
   visited.add(startingArticleIndex.title);
@@ -71,6 +81,8 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
   while (queue && queue.length > 0) {
     current = queue.shift();
     console.log(current);
+
+    break;
 
     sqlite.connect(`${ADJ_LOCATION}/${current.location}.db`);
     let adjList = sqlite.run(`SELECT adj
@@ -127,14 +139,17 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
       let distance = DocumentVector.mapRange(
         dvStartingArticle.cosineDistanceTo(dvArticleData));
 
-      console.log(distance);
-
       if (distance >= textSimilarity) {
+        console.log(`  Added: ${distance}`);
         results.push(articleIndex);
         queue.push(articleIndex);
+      } else {
+        console.log(`Ignored: ${distance}`);
       }
     });
   }
+
+  return callback(undefined, results);
 };
 
 module.exports = {

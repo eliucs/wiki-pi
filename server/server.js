@@ -64,8 +64,11 @@ app.get('/search-courses', (req, res) => {
     // Check if there was an error:
     if (err) {
       console.log('Error: retrieving search results from index.');
-      return res.status(400).send();
+      return res.status(400).send({
+        errorCode: codes.ERROR_NOT_ARTICLE_FOUND
+      });
     }
+
     return res.status(200).send(results);
   });
 });
@@ -79,25 +82,33 @@ app.post('/new-course', (req, res) => {
   const startingArticle = body.startingArticle;
   const textSimilarity = normalizePercentage(body.textSimilarity);
 
-  searchArticles(startingArticle, textSimilarity, (err, results, db) => {
-    // Close the database connection:
-    if (dbConnected) {
-      dbConnected.forEach((db) => {
-        db.close();
+  searchArticles(startingArticle, textSimilarity, (err, results) => {
+    // Check if there was an error:
+    if (err) {
+      console.log('Error: creating course.');
+      return res.status(400).send({
+        errorCode: err
       });
     }
 
-    // Check if there was an error:
-    if (err) {
-      console.log('Error: retrieving search results from index.');
-      return res.status(400).send();
-    }
+    console.log('Results:');
+    results.forEach((article) => {
+      console.log(article);
+    });
 
-    console.log('Done Search');
+    req.session['results'] = {
+      initialized: true,
+      results: results
+    };
+
+    return res.status(200).send({
+      successCode: codes.SUCCESS_COURSE_CREATED
+    });
   });
 });
 
 app.get('/new-course-results', (req, res) => {
+
   res.render('new-course-results.hbs', {
     pageName: 'new-course-results',
     pageTitle: 'New Course Results',

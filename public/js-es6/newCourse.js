@@ -75,21 +75,38 @@ $("#btn-create-course").click(() => {
       contentType: "application/json",
       url: "/new-course",
       success: function(success) {
+        success = success.successCode;
         $("#loading-container").css("display", "none");
 
-        // if (success.successCode === 1002) {
-        //   alert("Test");
-        //   console.log("Success: article found and course generated.");
-        // }
+        if (success === SUCCESS_COURSE_CREATED) {
+          console.log('Success: course created.');
+        }
+
+        window.location.href = '/new-course-results';
       },
       error: function(error) {
+        error = error.responseJSON.errorCode
         $("#loading-container").css("display", "none");
 
-        // if (error.responseJSON.errorCode === 2001) {
-        //   console.log("Error: connecting to database.");
-        // } else if (error.responseJSON.errorCode === 2002) {
-        //   console.log("Error: no article found.");
-        // }
+        switch (error) {
+          case ERROR_COURSE_NOT_CREATED:
+            console.log('Error: course not created.');
+            break;
+          case ERROR_NULL_STARTING_ARTICLE:
+            console.log('Error: the starting article request was null.');
+            break;
+          case ERROR_RETRIEVING_STARTING_ARTICLE_INDEX:
+            console.log('Error: there was a problem retrieving the starting ' +
+                        'article index from the database.');
+            break;
+          case ERROR_RETRIEVING_STARTING_ARTICLE_DATA:
+            console.log('Error: there was a problem retrieving the starting ' +
+                        'article data from the database.');
+            break;
+          default:
+            console.log('Error: a problem occurred.');
+            break;
+        }
       }
     });
   }
