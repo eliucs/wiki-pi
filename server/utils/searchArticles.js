@@ -77,13 +77,19 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
   queue.push(startingArticleIndex);
   results.push(startingArticleIndex);
 
+  let lim = 10; // Limit the number of processed articles, for testing purposes
   let count = 0;
 
   // Start BFS:
   while (queue && queue.length > 0) {
     current = queue.shift();
     console.log(current);
-    
+
+    // For testing:
+    if (count === lim) {
+      break;
+    }
+
     sqlite.connect(`${ADJ_LOCATION}/${current.location}.db`);
     let adjList = sqlite.run(`SELECT adj
                               FROM adj_table
@@ -93,6 +99,12 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
     adjList = JSON.parse(adjList);
 
     adjList.forEach((article) => {
+
+      // For testing:
+      if (count === lim) {
+        return;
+      }
+      count++;
 
       // Check if article has already been visited, if so, skip article,
       // otherwise add to visited Set:
