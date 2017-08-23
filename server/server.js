@@ -3,14 +3,16 @@ require('./config/config');
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const express = require('express');
+const session = require('express-session');
 const fuzzy = require('fuzzy');
 const path = require('path');
 const hbs = require('hbs');
 
 const codes = require('./utils/codes');
-const {normalizePercentage} = require('./utils/normalizePercentage');
-const {searchArticles} = require('./utils/searchArticles');
-const {searchQueryIndex} = require('./utils/searchQueryIndex');
+const { createArticleDataList } = require('./utils/createCourseList');
+const { normalizePercentage } = require('./utils/normalizePercentage');
+const { searchArticles } = require('./utils/searchArticles');
+const { searchQueryIndex } = require('./utils/searchQueryIndex');
 
 var app = express();
 
@@ -23,6 +25,14 @@ hbs.registerPartials(partialsPath);
 app.set('view engine', 'hbs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  secret: '<Wiki-Pi Secret>',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false
+  }
+}));
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
@@ -96,9 +106,9 @@ app.post('/new-course', (req, res) => {
       console.log(article);
     });
 
-    req.session['results'] = {
-      initialized: true,
-      results: results
+    req.session.courseCreation = {
+      courseCreated: true,
+      articleIndexList: results
     };
 
     return res.status(200).send({
@@ -108,13 +118,33 @@ app.post('/new-course', (req, res) => {
 });
 
 app.get('/new-course-results', (req, res) => {
+  // Redirect if course has not yet been created:
+  if (!req.session.courseCreation ||
+      !req.session.courseCreation.courseCreated) {
+    console.log('Redirecting: course not yet created.');
+    return res.redirect('/new-course');
+  }
 
-  res.render('new-course-results.hbs', {
-    pageName: 'new-course-results',
-    pageTitle: 'New Course Results',
-    new: 0,
-    articlesFound: 10
+  const articleIndexList = req.session.courseCreation.articleIndexList;
+
+  createArticleDataList(articleIndexList, (err, results) => {
+    // Check if there was an error:
+    if (err) {
+      console.log('Error: creating article data list.');
+      return res.status(400).send({
+        errorCode: err
+      });
+    }
+
+
   });
+
+  // res.render('new-course-results.hbs', {
+  //   pageName: 'new-course-results',
+  //   pageTitle: 'New Course Results',
+  //   new: 0,
+  //   articlesFound: 10
+  // });
 });
 
 app.get('/open-course', (req, res) => {

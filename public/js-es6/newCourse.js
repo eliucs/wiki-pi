@@ -85,7 +85,7 @@ $("#btn-create-course").click(() => {
         window.location.href = '/new-course-results';
       },
       error: function(error) {
-        error = error.responseJSON.errorCode
+        error = error.responseJSON.errorCode;
         $("#loading-container").css("display", "none");
 
         switch (error) {
