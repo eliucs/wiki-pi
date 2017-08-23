@@ -11,6 +11,7 @@ const path = require('path');
 const sqlite = require('sqlite-sync');
 
 const codes = require('./codes');
+const { convertArticleDataToJSON } = require('./convertArticleDataToJSON');
 
 const ARTICLE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/articles');
 
@@ -39,6 +40,7 @@ const createArticleDataList = (articleIndexList, callback) => {
                                          LIMIT 1;`)[0];
     sqlite.close();
 
+    // Skip empty articleData:
     if (!articleData || !articleData.title || !articleData.content) {
       return;
     }
@@ -46,7 +48,7 @@ const createArticleDataList = (articleIndexList, callback) => {
     results.push(articleData);
   });
 
-  return callback(undefined, results);
+  return callback(undefined, convertArticleDataToJSON(results));
 };
 
 module.exports = {

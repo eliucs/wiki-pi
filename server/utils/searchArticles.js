@@ -77,13 +77,13 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
   queue.push(startingArticleIndex);
   results.push(startingArticleIndex);
 
+  let count = 0;
+
   // Start BFS:
   while (queue && queue.length > 0) {
     current = queue.shift();
     console.log(current);
-
-    break;
-
+    
     sqlite.connect(`${ADJ_LOCATION}/${current.location}.db`);
     let adjList = sqlite.run(`SELECT adj
                               FROM adj_table

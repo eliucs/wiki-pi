@@ -9,7 +9,7 @@ const path = require('path');
 const hbs = require('hbs');
 
 const codes = require('./utils/codes');
-const { createArticleDataList } = require('./utils/createCourseList');
+const { createArticleDataList } = require('./utils/createArticleDataList');
 const { normalizePercentage } = require('./utils/normalizePercentage');
 const { searchArticles } = require('./utils/searchArticles');
 const { searchQueryIndex } = require('./utils/searchQueryIndex');
@@ -136,15 +136,19 @@ app.get('/new-course-results', (req, res) => {
       });
     }
 
+    // For debug purposes:
+    // console.log(JSON.stringify(results, undefined, 2));
 
+    const articlesFound = results.length;
+
+    return res.render('new-course-results.hbs', {
+      pageName: 'new-course-results',
+      pageTitle: 'New Course Results',
+      new: 0,
+      articlesFound: articlesFound,
+      articlesResults: JSON.stringify(results)
+    });
   });
-
-  // res.render('new-course-results.hbs', {
-  //   pageName: 'new-course-results',
-  //   pageTitle: 'New Course Results',
-  //   new: 0,
-  //   articlesFound: 10
-  // });
 });
 
 app.get('/open-course', (req, res) => {
