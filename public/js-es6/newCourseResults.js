@@ -1,4 +1,5 @@
 /**
+* 
 * newCourseResults.js
 *
 * Client side code to control page resize properties, edit properties of the
@@ -28,12 +29,16 @@ $(document).ready(() => {
   }
   $('#articles-found').text(articlesFoundText);
 
-  // Update articles results list:
-  const updateArticlesResultsList = () => {
+  // Update articles results list (immediately invoked on window load):
+  (global => {
     let articlesResultsList = $('#articles-results-list');
     articlesResultsList.empty(); // Prevent memory leaks
     
     articlesResults.forEach((article, i) => {
+      if (!article) {
+        return;
+      }
+
       let articleCard = $(document.createElement('div'))
       .addClass('col-md-12 new-course-results-article-card')
       .appendTo(articlesResultsList);
@@ -44,8 +49,7 @@ $(document).ready(() => {
       .attr('data-id', i)
       .appendTo(articleCard);
     });
-  };
-  updateArticlesResultsList(); // Invoked on window load first time
+  })();
 
   // Event Handler for article card on left side:
   $('.new-course-results-article-card-title').click((event) => {
@@ -73,6 +77,8 @@ $(document).ready(() => {
         $(`.new-course-results-article-card-title[data-id='${articleId}']`)
         .parent()
         .css('display', 'none');
+
+        articlesResults[articleId] = undefined;
 
         $('#article-view').css('display', 'none');
         $('#article-view').empty();
@@ -115,7 +121,40 @@ $(document).ready(() => {
     });
   });
 
+  // Event Handler for finish course creation button:
   $('#btn-create-course-finish').click(() => {
+    let courseResults = [];
 
+    articlesResults.forEach((article) => {
+      if (!article) {
+        return;
+      }
+      courseResults.push(article);
+    });
+
+    courseResults = {
+      results: courseResults
+    };
+
+    console.log(courseResults);
+
+    $.ajax({
+      type: "POST",
+      data: JSON.stringify(courseResults),
+      contentType: "application/json",
+      url: "/finish-course-creation",
+      success: function(success) {
+        success = success.successCode;
+
+
+
+      },
+      error: function(error) {
+        error = error.responseJSON.errorCode;
+
+
+
+      }
+    });
   });
 });

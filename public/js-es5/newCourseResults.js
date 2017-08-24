@@ -1,6 +1,7 @@
 'use strict';
 
 /**
+* 
 * newCourseResults.js
 *
 * Client side code to control page resize properties, edit properties of the
@@ -30,18 +31,23 @@ $(document).ready(function () {
   }
   $('#articles-found').text(articlesFoundText);
 
-  // Update articles results list:
-  var articlesResultsList = $('#articles-results-list');
+  // Update articles results list (immediately invoked on window load):
+  (function (global) {
+    var articlesResultsList = $('#articles-results-list');
+    articlesResultsList.empty(); // Prevent memory leaks
 
-  articlesResults.forEach(function (article, i) {
-    var articleCard = $(document.createElement('div')).addClass('col-md-12 new-course-results-article-card').appendTo(articlesResultsList);
+    articlesResults.forEach(function (article, i) {
+      if (!article) {
+        return;
+      }
 
-    var articleTitle = $(document.createElement('div')).addClass('new-course-results-article-card-title').text(article.title).attr('data-id', i).appendTo(articleCard);
-  });
+      var articleCard = $(document.createElement('div')).addClass('col-md-12 new-course-results-article-card').appendTo(articlesResultsList);
 
-  // For debugging purposes:
-  // console.log(articlesResults);
+      var articleTitle = $(document.createElement('div')).addClass('new-course-results-article-card-title').text(article.title).attr('data-id', i).appendTo(articleCard);
+    });
+  })();
 
+  // Event Handler for article card on left side:
   $('.new-course-results-article-card-title').click(function (event) {
     var articleId = $(event.target).attr('data-id');
     var articleContent = articlesResults[articleId].content;
@@ -50,7 +56,24 @@ $(document).ready(function () {
     $('#article-view').empty(); // Prevent memory leaks
     var articleView = $('#article-view');
 
-    var articleDelete = $(document.createElement('a')).addClass('new-course-results-delete-card').text('Delete').appendTo(articleView);
+    // Only all other articles except the first article (the starting article
+    // itself) have the option to be deleted:
+    if (articleId != 0) {
+      var articleDeleteContainer = $(document.createElement('div')).addClass('new-course-results-delete-container').appendTo(articleView);
+
+      var articleDeleteBtn = $(document.createElement('a')).addClass('new-course-results-delete-btn').text('Delete')
+      // Event Handler for delete article button:
+      .on('click', function (event) {
+        console.log(articleId);
+
+        $('.new-course-results-article-card-title[data-id=\'' + articleId + '\']').parent().css('display', 'none');
+
+        articlesResults[articleId] = undefined;
+
+        $('#article-view').css('display', 'none');
+        $('#article-view').empty();
+      }).appendTo(articleDeleteContainer);
+    }
 
     articleContent.forEach(function (item) {
       var tag = void 0;
@@ -85,5 +108,34 @@ $(document).ready(function () {
     });
   });
 
-  $('#btn-create-course-finish').click(function () {});
+  // Event Handler for finish course creation button:
+  $('#btn-create-course-finish').click(function () {
+    var courseResults = [];
+
+    articlesResults.forEach(function (article) {
+      if (!article) {
+        return;
+      }
+      courseResults.push(article);
+    });
+
+    courseResults = {
+      results: courseResults
+    };
+
+    console.log(courseResults);
+
+    $.ajax({
+      type: "POST",
+      data: JSON.stringify(courseResults),
+      contentType: "application/json",
+      url: "/finish-course-creation",
+      success: function success(_success) {
+        _success = _success.successCode;
+      },
+      error: function error(_error) {
+        _error = _error.responseJSON.errorCode;
+      }
+    });
+  });
 });

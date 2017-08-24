@@ -11,6 +11,7 @@ const hbs = require('hbs');
 const codes = require('./utils/codes');
 const { createArticleDataList } = require('./utils/createArticleDataList');
 const { normalizePercentage } = require('./utils/normalizePercentage');
+const { saveCreatedCourse } = require('./utils/saveCreatedCourse');
 const { searchArticles } = require('./utils/searchArticles');
 const { searchQueryIndex } = require('./utils/searchQueryIndex');
 
@@ -147,6 +148,35 @@ app.get('/new-course-results', (req, res) => {
       new: 0,
       articlesFound: articlesFound,
       articlesResults: JSON.stringify(results)
+    });
+  });
+});
+
+app.post('/finish-course-creation', (req, res) => {
+  let body = _.pick(req.body, [
+    'results'
+  ]);
+
+  console.log(body);
+
+  let courseResults = body.results;
+
+  saveCreatedCourse(courseResults, (err, results, db) => {
+    // Close the database connection:
+    if (db) {
+      db.close();
+    }
+    
+    // Check if there was an error:
+    if (err) {
+      console.log('Error: saving created course.');
+      return res.status(400).send({
+        errorCode: err
+      });
+    }
+
+    return res.status(200).send({
+      successCode: codes.SUCCESS_SAVING_COURSE_CREATION
     });
   });
 });
