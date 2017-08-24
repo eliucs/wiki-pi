@@ -50,6 +50,8 @@ $(document).ready(function () {
     $('#article-view').empty(); // Prevent memory leaks
     var articleView = $('#article-view');
 
+    var articleDelete = $(document.createElement('a')).addClass('new-course-results-delete-card').text('Delete').appendTo(articleView);
+
     articleContent.forEach(function (item) {
       var tag = void 0;
       switch (item.h) {

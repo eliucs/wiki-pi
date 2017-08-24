@@ -717,3 +717,27 @@ div > div > div.form-group.row.course-form-item > span {
 .btn-goto-course:active {
   background-color: #1976D2;
 }
+
+.new-course-results-delete-container {
+  width: 100%;
+  margin-bottom: 1em;
+  text-align: right !important;
+}
+
+.new-course-results-delete-btn {
+  padding: 0.5em;
+  color: #fff !important;
+  background-color: #B71C1C !important;
+  cursor: pointer;
+  font-family: 'Roboto Light';
+  font-size: 1em;
+  border-radius: 0.1em;
+}
+
+.new-course-results-delete-btn:hover {
+  background-color: #D32F2F !important;
+}
+
+.new-course-results-delete-btn:active {
+  background-color: #F44336 !important;
+}

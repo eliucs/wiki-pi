@@ -29,23 +29,25 @@ $(document).ready(() => {
   $('#articles-found').text(articlesFoundText);
 
   // Update articles results list:
-  let articlesResultsList = $('#articles-results-list');
+  const updateArticlesResultsList = () => {
+    let articlesResultsList = $('#articles-results-list');
+    articlesResultsList.empty(); // Prevent memory leaks
+    
+    articlesResults.forEach((article, i) => {
+      let articleCard = $(document.createElement('div'))
+      .addClass('col-md-12 new-course-results-article-card')
+      .appendTo(articlesResultsList);
+  
+      let articleTitle = $(document.createElement('div'))
+      .addClass('new-course-results-article-card-title')
+      .text(article.title)
+      .attr('data-id', i)
+      .appendTo(articleCard);
+    });
+  };
+  updateArticlesResultsList(); // Invoked on window load first time
 
-  articlesResults.forEach((article, i) => {
-    let articleCard = $(document.createElement('div'))
-    .addClass('col-md-12 new-course-results-article-card')
-    .appendTo(articlesResultsList);
-
-    let articleTitle = $(document.createElement('div'))
-    .addClass('new-course-results-article-card-title')
-    .text(article.title)
-    .attr('data-id', i)
-    .appendTo(articleCard);
-  });
-
-  // For debugging purposes:
-  // console.log(articlesResults);
-
+  // Event Handler for article card on left side:
   $('.new-course-results-article-card-title').click((event) => {
     let articleId = $(event.target).attr('data-id');
     let articleContent = articlesResults[articleId].content;
@@ -53,6 +55,30 @@ $(document).ready(() => {
     $('#article-view').css('display', 'block');
     $('#article-view').empty(); // Prevent memory leaks
     let articleView = $('#article-view');
+
+    // Only all other articles except the first article (the starting article
+    // itself) have the option to be deleted:
+    if (articleId != 0) {
+      let articleDeleteContainer = $(document.createElement('div'))
+      .addClass('new-course-results-delete-container')
+      .appendTo(articleView);
+  
+      let articleDeleteBtn = $(document.createElement('a'))
+      .addClass('new-course-results-delete-btn')
+      .text('Delete')
+      // Event Handler for delete article button:
+      .on('click', (event) => {
+        console.log(articleId);
+
+        $(`.new-course-results-article-card-title[data-id='${articleId}']`)
+        .parent()
+        .css('display', 'none');
+
+        $('#article-view').css('display', 'none');
+        $('#article-view').empty();
+      })
+      .appendTo(articleDeleteContainer);
+    }
 
     articleContent.forEach((item) => {
       let tag;

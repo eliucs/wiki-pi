@@ -77,7 +77,7 @@ const searchArticles = (startingArticle, textSimilarity, callback) => {
   queue.push(startingArticleIndex);
   results.push(startingArticleIndex);
 
-  let lim = 10; // Limit the number of processed articles, for testing purposes
+  let lim = 2; // Limit the number of processed articles, for testing purposes
   let count = 0;
 
   // Start BFS:
