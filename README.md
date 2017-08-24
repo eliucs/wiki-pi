@@ -64,6 +64,8 @@ with the name `WIKI-DRIVE`, and the file structure is as follows:
 |   └── 004633.db
 ├── index
 |   └── index.db
+├── courses
+|   └── courses.db
 ```
 
 The adjacency list (adj) and the articles files are large, so they are split
