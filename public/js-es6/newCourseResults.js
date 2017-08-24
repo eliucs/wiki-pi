@@ -138,6 +138,10 @@ $(document).ready(() => {
 
     console.log(courseResults);
 
+    $('#loading-title').html('');
+    $('#loading-title').html('Saving course creation');
+    $("#loading-container").css("display", "block");
+
     $.ajax({
       type: "POST",
       data: JSON.stringify(courseResults),
@@ -146,14 +150,37 @@ $(document).ready(() => {
       success: function(success) {
         success = success.successCode;
 
+        $('#loading-title').html('');
+        $('#loading-title').html('Course successfully saved.');
 
-
+        setTimeout(() => {
+          $("#loading-container").css("display", "none");
+          window.location.href = '/open-course';
+        }, 1000);
       },
       error: function(error) {
         error = error.responseJSON.errorCode;
 
+        $('#loading-title').html('');
+        $('#loading-title').html('A problem occurred saving the course.');
 
+        setTimeout(() => {
+          $("#loading-container").css("display", "none");
+        }, 1000);
 
+        switch(error) {
+          case ERROR_NULL_COURSE_RESULTS:
+            console.log('Error: null course results.');
+            break;
+          case ERROR_NULL_CREATING_TABLE_SAVING_COURSE:
+            console.log('Error: problem with database.');
+            break;
+          case ERROR_NULL_INSERTING_INTO_TABLE_SAVING_COURSE:
+            console.log('Error: saving to database.');
+            break;
+          default:
+            break;
+        }
       }
     });
   });
