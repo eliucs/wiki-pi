@@ -1,0 +1,1 @@
+"use strict";$(document).ready(function(){"undefined"==typeof savedCourses||0===savedCourses.length?$("#empty-open-course").css("display","block"):$("#open-course-container").css("display","block")});

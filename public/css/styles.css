@@ -741,3 +741,11 @@ div > div > div.form-group.row.course-form-item > span {
 .new-course-results-delete-btn:active {
   background-color: #F44336 !important;
 }
+
+#empty-open-course {
+  display: none;
+}
+
+#open-course-container {
+  display: none;
+}

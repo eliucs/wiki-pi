@@ -4,7 +4,7 @@
   <body class="body-open-course">
     {{> navbar}}
 
-    <!-- <div class="container-fluid empty-no-courses-container">
+    <div id="empty-open-course" class="container-fluid empty-no-courses-container">
       <div class="row">
         <div class="col-md-12">
           <div class="empty-no-courses">
@@ -12,9 +12,9 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <div class="container-fluid open-course-container offset-top">
+    <div id="open-course-container" class="container-fluid open-course-container offset-top">
       <div class="row">
         <div class="col-md-12">
           <div class="new-course-title">
@@ -84,12 +84,13 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
 
-
+    <script type="text/javascript">
+      let savedCourses = {{{savedCourses}}};
+    </script>
+    <script type="text/javascript" src="js-es6/openCourse.js"></script>
 
   </body>
 </html>

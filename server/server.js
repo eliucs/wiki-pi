@@ -11,6 +11,7 @@ const hbs = require('hbs');
 const codes = require('./utils/codes');
 const { createArticleDataList } = require('./utils/createArticleDataList');
 const { normalizePercentage } = require('./utils/normalizePercentage');
+const { retrieveSavedCourses } = require('./utils/retrieveSavedCourses');
 const { saveCreatedCourse } = require('./utils/saveCreatedCourse');
 const { searchArticles } = require('./utils/searchArticles');
 const { searchQueryIndex } = require('./utils/searchQueryIndex');
@@ -182,10 +183,23 @@ app.post('/finish-course-creation', (req, res) => {
 });
 
 app.get('/open-course', (req, res) => {
-  res.render('open-course.hbs', {
-    pageName: 'open-course',
-    pageTitle: 'Open An Existing Course',
-    new: 0
+  retrieveSavedCourses((err, results, db) => {
+    // Close the database connection:
+    if (db) {
+      db.close();
+    }
+
+    // Check if there was an error:
+    if (err) {
+      console.log('Error: retrieving saved courses.');
+    }
+
+    return res.render('open-course.hbs', {
+      pageName: 'open-course',
+      pageTitle: 'Open An Existing Course',
+      new: 0,
+      savedCourses: JSON.stringify(results)
+    });
   });
 });
 
