@@ -24,76 +24,28 @@
       </div>
 
       <div id="open-courses-list" class="row">
-
-        {{!-- <div class="col-md-4">
+        <div class="col-md-4">
           <div class="card-container">
             <div class="course-card-title">
-              Google
+              Mathematics
             </div>
             <div class="course-card-desc">
               Course Created: August 25, 2017 
             </div>
-          </div>
-        </div> --}}
 
-        {{!-- <div class="col-md-4">
-          <div class="card-container">
-            <div class="card-title">
-              Test Title
+            <div>
+              <canvas style="height: 8em;" id="graph"></canvas>
             </div>
-            <div class="card-desc">
-              Test description
-            </div>
+          
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card-container">
-            <div class="card-title">
-              Test Title
-            </div>
-            <div class="card-desc">
-              Test description
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-container">
-            <div class="card-title">
-              Test Title
-            </div>
-            <div class="card-desc">
-              Test description
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-container">
-            <div class="card-title">
-              Test Title
-            </div>
-            <div class="card-desc">
-              Test description
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-container">
-            <div class="card-title">
-              Test Title
-            </div>
-            <div class="card-desc">
-              Test description
-            </div>
-          </div>
-        </div> --}}
-
-
       </div>
     </div>
 
     <script type="text/javascript">
       let savedCourses = {{{savedCourses}}};
     </script>
+    <script type="text/javascript" src="js-lib/chart.min.js"></script>
     <script type="text/javascript" src="js-es6/openCourse.js"></script>
 
   </body>

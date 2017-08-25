@@ -55,4 +55,55 @@
         .text(`Date Created: ${formatDate(course.id)}`)
         .appendTo(b);
      });
+
+
+
+
+     const graphCtx = $("#graph")[0].getContext('2d');
+
+     const graphData = {
+        labels: ['Completed', 'Not Completed'],
+        datasets: [{
+            data: [50, 50],
+            backgroundColor: [
+              'rgba(50, 205, 50, 0.2)',
+              'rgba(123, 104, 238, 0.2)'
+            ],
+            borderColor: [
+              'rgba(50, 205, 50, 1)',
+              'rgba(123, 104, 238, 1)'
+            ],
+            borderWidth: 1
+          }]
+    };
+
+    const graphs = [graph];
+    const chartData = [
+        {
+        graph: graph,
+        context: graphCtx,
+        data: graphData,
+        type: 'doughnut'
+        }
+    ];
+        
+    chartData.forEach(function(entry) {
+        renderChart(entry.graph, entry.context, entry.type, entry.data);
+    });
+
+    function renderChart(chart, context, type, data) {
+        chart = new Chart(context, {
+            type: type,
+            data: data,
+            options: {
+                legend: {
+                    display: true,
+                    position: 'left'
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
  });

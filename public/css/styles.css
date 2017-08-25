@@ -595,7 +595,8 @@ div > div > div.form-group.row.course-form-item > span {
 
 .course-card-desc {
   font-family: 'Roboto Light';
-  font-size: 1em;
+  font-size: 0.75em;
+  margin-bottom: 1em;
 }
 
 .loading-container {
