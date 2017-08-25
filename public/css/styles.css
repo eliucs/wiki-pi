@@ -760,3 +760,29 @@ div > div > div.form-group.row.course-form-item > span {
 .course-card-title:hover {
   color: #1565C0;
 }
+
+/* Open Course Modal */
+.modal-content  {
+  -webkit-border-radius: 0.1em !important;
+  -moz-border-radius: 0.1em !important;
+  border-radius: 0.1em !important; 
+}
+
+.modal-title {
+  font-family: 'Roboto Medium';
+}
+
+.modal-body {
+  font-family: 'Roboto Light';
+}
+
+.btn-modal {
+  border-radius: 0.1em;
+  font-family: 'Roboto Light';
+  cursor: pointer;
+}
+
+.modal-course-progress-container {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}

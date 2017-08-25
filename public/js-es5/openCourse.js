@@ -38,7 +38,9 @@ $(document).ready(function () {
 
             var b = $(document.createElement('div')).addClass('card-container').attr('data-id', course.id).appendTo(a);
 
-            var courseTitle = $(document.createElement('div')).addClass('course-card-title').text(course.title).appendTo(b);
+            var courseTitleContainer = $(document.createElement('div')).appendTo(b);
+
+            var courseTitle = $(document.createElement('span')).addClass('course-card-title').attr('data-id', course.id).attr('unselectable', 'on').attr('onselectstart', 'return false').attr('onmousedown', 'return false').text(course.title).appendTo(courseTitleContainer);
 
             var courseDateCreated = $(document.createElement('div')).addClass('course-card-desc').text('Date Created: ' + formatDate(course.id)).appendTo(b);
 
@@ -92,4 +94,8 @@ $(document).ready(function () {
             });
         });
     })();
+
+    $('.course-card-title').click(function (event) {
+        console.log($(event.target).attr('data-id'));
+    });
 });

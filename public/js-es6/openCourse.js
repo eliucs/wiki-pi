@@ -17,18 +17,18 @@
      }
 
      // Helper function to format dates from timestamp:
-     const formatDate = (timestamp) => {
-        const monthNames = [
+     let formatDate = (timestamp) => {
+        let monthNames = [
             "January", "February", "March",
             "April", "May", "June", "July",
             "August", "September", "October",
             "November", "December"
           ];
         
-        const date = new Date(timestamp);
-        const month = monthNames[date.getMonth()];
-        const day = date.getDate();
-        const year = date.getFullYear();
+        let date = new Date(timestamp);
+        let month = monthNames[date.getMonth()];
+        let day = date.getDate();
+        let year = date.getFullYear();
 
         return `${month} ${day}, ${year}`;
      };
@@ -52,6 +52,8 @@
            let courseTitle = $(document.createElement('span'))
            .addClass('course-card-title')
            .attr('data-id', course.id)
+           .attr('data-toggle', 'modal')
+           .attr('data-target', '#basicExample')
            .attr('unselectable', 'on')
            .attr('onselectstart', 'return false')
            .attr('onmousedown', 'return false')
@@ -126,7 +128,25 @@
      })();
 
      $('.course-card-title').click((event) => {
-        console.log($(event.target).attr('data-id'));
+        let title = $(event.target).text();
+        let id = parseInt($(event.target).attr('data-id'));
+        let dateCreated = formatDate(id);
+        let courseData = savedCourses.reduce((previous, current) => { 
+            return (current.id === id) ? current : previous; 
+        }, null);
+
+        // For debug purposes:
+        // console.log(title);
+        // console.log(id);
+        // console.log(formatDate(id));
+
+        $('#modal-title').html(title);
+        $('#modal-id').html(`Course ID: ${id}`);
+        $('#modal-date-created').html(`Course Created: ${dateCreated}`);
+        $('#modal-course-progress').html(`${courseData.completedNumSections} of
+            ${courseData.totalNumSections} section(s) complete.`);
+
+        
 
      });
  });
