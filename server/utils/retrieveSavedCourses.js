@@ -17,7 +17,7 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
     const db = new sqlite.Database(COURSE_LOCATION);
 
     db.serialize(() => {
-        const query = `SELECT title, id
+        const query = `SELECT title, id, totalNumSections, completedNumSections
                        FROM courses_table;`;
     
         db.all(query, (err, results) => {

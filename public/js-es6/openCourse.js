@@ -34,76 +34,87 @@
      };
 
      // Display saved courses:
-     let openCoursesList = $('#open-courses-list');
-     savedCourses.forEach((course) => {
-        let a = $(document.createElement('div'))
-        .addClass('col-md-4')
-        .appendTo(openCoursesList);
+     (global => {
+        let openCoursesList = $('#open-courses-list');
+        savedCourses.forEach((course) => {
+           let a = $(document.createElement('div'))
+           .addClass('col-md-4')
+           .appendTo(openCoursesList);
+   
+           let b = $(document.createElement('div'))
+           .addClass('card-container')
+           .attr('data-id', course.id)
+           .appendTo(a);
+   
+           let courseTitle = $(document.createElement('div'))
+           .addClass('course-card-title')
+           .text(course.title)
+           .appendTo(b);
+   
+           let courseDateCreated = $(document.createElement('div'))
+           .addClass('course-card-desc')
+           .text(`Date Created: ${formatDate(course.id)}`)
+           .appendTo(b);
 
-        let b = $(document.createElement('div'))
-        .addClass('card-container')
-        .attr('data-id', course.id)
-        .appendTo(a);
-
-        let courseTitle = $(document.createElement('div'))
-        .addClass('course-card-title')
-        .text(course.title)
-        .appendTo(b);
-
-        let courseDateCreated = $(document.createElement('div'))
-        .addClass('course-card-desc')
-        .text(`Date Created: ${formatDate(course.id)}`)
-        .appendTo(b);
-     });
-
-
-
-
-     const graphCtx = $("#graph")[0].getContext('2d');
-
-     const graphData = {
-        labels: ['Completed', 'Not Completed'],
-        datasets: [{
-            data: [50, 50],
-            backgroundColor: [
-              'rgba(50, 205, 50, 0.2)',
-              'rgba(123, 104, 238, 0.2)'
-            ],
-            borderColor: [
-              'rgba(50, 205, 50, 1)',
-              'rgba(123, 104, 238, 1)'
-            ],
-            borderWidth: 1
-          }]
-    };
-
-    const graphs = [graph];
-    const chartData = [
-        {
-        graph: graph,
-        context: graphCtx,
-        data: graphData,
-        type: 'doughnut'
-        }
-    ];
-        
-    chartData.forEach(function(entry) {
-        renderChart(entry.graph, entry.context, entry.type, entry.data);
-    });
-
-    function renderChart(chart, context, type, data) {
-        chart = new Chart(context, {
-            type: type,
-            data: data,
-            options: {
-                legend: {
-                    display: true,
-                    position: 'left'
-                },
-                responsive: true,
-                maintainAspectRatio: false
-            }
+           let d = $(document.createElement('div'))
+           .appendTo(b);
+   
+           let courseGraph = $(document.createElement('canvas'))
+           .attr('id', course.id)
+           .css('height', '8em')
+           .appendTo(d);
+   
+           // For debug purposes:
+           // console.log(course.totalNumSections);
+           // console.log(course.completedNumSections);
         });
-    }
+     })();
 
+     // Render course progress graphs:
+     // Create graph contexts, graph data:
+     (global => {
+        let chartData = [];
+        savedCourses.forEach((course) => {
+           let context = $(`#${course.id}`)[0].getContext('2d');
+           let data = {
+               labels: ['Completed', 'Not Completed'],
+               datasets: [{
+                   data: [course.completedNumSections, course.totalNumSections - 
+                          course.completedNumSections],
+                   backgroundColor: [
+                       'rgba(50, 205, 50, 0.2)',
+                       'rgba(126, 126, 126, 0.2)'
+                   ],
+                   borderColor: [
+                       'rgba(50, 205, 50, 1)',
+                       'rgba(126, 126, 126, 1)'
+                   ],
+                   borderWidth: 1
+               }]
+           };
+   
+           chartData.push({
+               graph: course.id,
+               context: context,
+               data: data,
+               type: 'doughnut'
+           });
+        });
+   
+        // Render charts:
+       chartData.forEach((entry) => {
+           entry.graph = new Chart(entry.context, {
+               type: entry.type,
+               data: entry.data,
+               options: {
+                   legend: {
+                       display: true,
+                       position: 'left'
+                   },
+                   responsive: true,
+                   maintainAspectRatio: false
+               }
+           });
+       });
+     })();
  });

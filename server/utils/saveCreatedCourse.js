@@ -24,6 +24,9 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
     let title = courseResults[0].title;
     let id = Date.now();
     let course = JSON.stringify(courseResults);
+    let totalNumSections = courseResults.length;
+    let completedNumSections = 0;
+    let completedSections = JSON.stringify([]);
 
     // For debug purposes:
     // console.log(title, id);
@@ -33,7 +36,13 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
     const db = new sqlite.Database(COURSE_LOCATION);
 
     db.run(`CREATE TABLE IF NOT EXISTS courses_table 
-            (title TEXT, id INTEGER, course TEXT)`, (err, results) => {
+            (title TEXT, 
+            id INTEGER, 
+            course TEXT, 
+            totalNumSections INTEGER, 
+            completedNumSections INTEGER, 
+            completedSections TEXT)`, 
+            (err, results) => {
         
         // Check if there was an error with creating new table 
         // while saving course:
@@ -42,8 +51,8 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
                 undefined, db);
         }
         
-        db.run(`INSERT INTO courses_table VALUES (?, ?, ?)`, 
-                [title, id, course],
+        db.run(`INSERT INTO courses_table VALUES (?, ?, ?, ?, ?, ?)`, 
+                [title, id, course, totalNumSections, completedNumSections, completedSections],
                 (err, results) => {
             
             // Check if there was an error inserting into table while
@@ -55,7 +64,7 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
             }
 
             // Confirm that data has been inserted correctly:
-            db.all(`SELECT title, id, course 
+            db.all(`SELECT title, id, totalNumSections, completedNumSections, completedSections 
                     FROM courses_table 
                     WHERE id=${id}
                     LIMIT 1`, (err, temp) => {
@@ -65,7 +74,7 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
                 }
                 
                 // For debug purposes:
-                // console.log(JSON.stringify(temp, undefined, 2));
+                console.log(JSON.stringify(temp, undefined, 2));
             });
             
             return callback(undefined, results, db);
