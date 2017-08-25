@@ -46,10 +46,17 @@
            .attr('data-id', course.id)
            .appendTo(a);
    
-           let courseTitle = $(document.createElement('div'))
-           .addClass('course-card-title')
-           .text(course.title)
+           let courseTitleContainer = $(document.createElement('div'))
            .appendTo(b);
+
+           let courseTitle = $(document.createElement('span'))
+           .addClass('course-card-title')
+           .attr('data-id', course.id)
+           .attr('unselectable', 'on')
+           .attr('onselectstart', 'return false')
+           .attr('onmousedown', 'return false')
+           .text(course.title)
+           .appendTo(courseTitleContainer);
    
            let courseDateCreated = $(document.createElement('div'))
            .addClass('course-card-desc')
@@ -117,4 +124,9 @@
            });
        });
      })();
+
+     $('.course-card-title').click((event) => {
+        console.log($(event.target).attr('data-id'));
+
+     });
  });
