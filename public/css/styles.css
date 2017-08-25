@@ -586,12 +586,14 @@ div > div > div.form-group.row.course-form-item > span {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-.card-title {
+.course-card-title {
   font-family: 'Roboto Medium';
   font-size: 1.5em;
+  margin-bottom: 0.25rem !important;
+  overflow-x: hidden;
 }
 
-.card-desc {
+.course-card-desc {
   font-family: 'Roboto Light';
   font-size: 1em;
 }

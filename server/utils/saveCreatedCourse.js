@@ -64,7 +64,8 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
                     return console.log(err);
                 }
                 
-                console.log(JSON.stringify(temp, undefined, 2));
+                // For debug purposes:
+                // console.log(JSON.stringify(temp, undefined, 2));
             });
             
             return callback(undefined, results, db);
