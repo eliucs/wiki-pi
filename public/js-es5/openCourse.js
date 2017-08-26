@@ -40,7 +40,7 @@ $(document).ready(function () {
 
             var courseTitleContainer = $(document.createElement('div')).appendTo(b);
 
-            var courseTitle = $(document.createElement('span')).addClass('course-card-title').attr('data-id', course.id).attr('unselectable', 'on').attr('onselectstart', 'return false').attr('onmousedown', 'return false').text(course.title).appendTo(courseTitleContainer);
+            var courseTitle = $(document.createElement('span')).addClass('course-card-title').attr('data-id', course.id).attr('data-toggle', 'modal').attr('data-target', '#basicExample').attr('unselectable', 'on').attr('onselectstart', 'return false').attr('onmousedown', 'return false').text(course.title).appendTo(courseTitleContainer);
 
             var courseDateCreated = $(document.createElement('div')).addClass('course-card-desc').text('Date Created: ' + formatDate(course.id)).appendTo(b);
 
@@ -96,6 +96,41 @@ $(document).ready(function () {
     })();
 
     $('.course-card-title').click(function (event) {
-        console.log($(event.target).attr('data-id'));
+        var title = $(event.target).text();
+        var id = parseInt($(event.target).attr('data-id'));
+        var dateCreated = formatDate(id);
+        var courseData = savedCourses.reduce(function (previous, current) {
+            return current.id === id ? current : previous;
+        }, null);
+
+        // For debug purposes:
+        // console.log(title);
+        // console.log(id);
+        // console.log(formatDate(id));
+
+        $('#modal-title').html(title);
+        $('#modal-id').html('Course ID: ' + id);
+        $('#modal-date-created').html('Course Created: ' + dateCreated);
+        $('#modal-course-progress').html(courseData.completedNumSections + ' of\n            ' + courseData.totalNumSections + ' section(s) complete.');
+
+        var context = $('#')[0].getContext('2d');
+        var data = {
+            labels: ['Completed'],
+            datasets: [{
+                data: [course.completedNumSections],
+                backgroundColor: ['rgba(50, 205, 50, 0.2)'],
+                borderColor: ['rgba(50, 205, 50, 1)'],
+                borderWidth: 1
+            }]
+        };
+
+        modalCourseProgressChart = new Chart(context, {
+            type: 'horizontalBar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
     });
 });

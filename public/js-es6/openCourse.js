@@ -143,10 +143,42 @@
         $('#modal-title').html(title);
         $('#modal-id').html(`Course ID: ${id}`);
         $('#modal-date-created').html(`Course Created: ${dateCreated}`);
-        $('#modal-course-progress').html(`${courseData.completedNumSections} of
-            ${courseData.totalNumSections} section(s) complete.`);
-
+        $('#modal-course-progress').html(`${courseData.completedNumSections} of ${courseData.totalNumSections} section(s) complete.`);
         
-
+        // Render course progress bar:
+        var context = $('#modal-course-progress-chart')[0].getContext('2d');
+        var stackedBar = new Chart(context, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Completed'],
+                datasets: [{
+                    data: [courseData.completedNumSections],
+                    backgroundColor: [
+                        'rgba(50, 205, 50, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(50, 205, 50, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        ticks: {
+                            max: courseData.totalNumSections,
+                            min: 0,
+                            stepSize: 1
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
      });
  });
