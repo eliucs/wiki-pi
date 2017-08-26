@@ -10,6 +10,7 @@ const hbs = require('hbs');
 
 const codes = require('./utils/codes');
 const { createArticleDataList } = require('./utils/createArticleDataList');
+const { deleteCourse } = require('./utils/deleteCourse');
 const { normalizePercentage } = require('./utils/normalizePercentage');
 const { retrieveSavedCourses } = require('./utils/retrieveSavedCourses');
 const { saveCreatedCourse } = require('./utils/saveCreatedCourse');
@@ -199,6 +200,33 @@ app.get('/open-course', (req, res) => {
       pageTitle: 'Open An Existing Course',
       new: 0,
       savedCourses: JSON.stringify(results)
+    });
+  });
+});
+
+app.delete('/delete-course', (req, res) => {
+  let body = _.pick(req.body, [
+    'id'
+  ]);
+
+  console.log(body.id);
+
+  deleteCourse(body.id, (err, success, db) => {
+    // Close the database connection:
+    if (db) {
+      db.close();
+    }
+
+    // Check if there was an error:
+    if (err) {
+      console.log(`Error: deleting course with id ${body.id}.`);
+      return res.status(400).send({
+        errorCode: err
+      });
+    }
+
+    return res.status(200).send({
+      successCode: success
     });
   });
 });

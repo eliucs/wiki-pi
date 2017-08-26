@@ -95,6 +95,9 @@ $(document).ready(function () {
         });
     })();
 
+    var currentOpenModalID = void 0;
+
+    // Open course modal:
     $('.course-card-title').click(function (event) {
         var title = $(event.target).text();
         var id = parseInt($(event.target).attr('data-id'));
@@ -102,6 +105,8 @@ $(document).ready(function () {
         var courseData = savedCourses.reduce(function (previous, current) {
             return current.id === id ? current : previous;
         }, null);
+
+        currentOpenModalID = id;
 
         // For debug purposes:
         // console.log(title);
@@ -111,25 +116,59 @@ $(document).ready(function () {
         $('#modal-title').html(title);
         $('#modal-id').html('Course ID: ' + id);
         $('#modal-date-created').html('Course Created: ' + dateCreated);
-        $('#modal-course-progress').html(courseData.completedNumSections + ' of\n            ' + courseData.totalNumSections + ' section(s) complete.');
+        $('#modal-course-progress').html(courseData.completedNumSections + ' of ' + courseData.totalNumSections + ' section(s) complete.');
 
-        var context = $('#')[0].getContext('2d');
-        var data = {
-            labels: ['Completed'],
-            datasets: [{
-                data: [course.completedNumSections],
-                backgroundColor: ['rgba(50, 205, 50, 0.2)'],
-                borderColor: ['rgba(50, 205, 50, 1)'],
-                borderWidth: 1
-            }]
-        };
-
-        modalCourseProgressChart = new Chart(context, {
+        // Render course progress bar:
+        var context = $('#modal-course-progress-chart')[0].getContext('2d');
+        var bar = new Chart(context, {
             type: 'horizontalBar',
-            data: data,
+            data: {
+                labels: ['Completed'],
+                datasets: [{
+                    data: [courseData.completedNumSections],
+                    backgroundColor: ['rgba(50, 205, 50, 0.2)'],
+                    borderColor: ['rgba(50, 205, 50, 1)'],
+                    borderWidth: 1
+                }]
+            },
             options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        ticks: {
+                            max: courseData.totalNumSections,
+                            min: 0,
+                            stepSize: 1
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
                 responsive: true,
                 maintainAspectRatio: false
+            }
+        });
+    });
+
+    // Delete course by making AJAX DELETE request to server:
+    $('#btn-modal-delete').click(function () {
+        var data = {
+            id: currentOpenModalID
+        };
+
+        $.ajax({
+            type: "DELETE",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            url: "/delete-course",
+            success: function success(_success) {
+                // success = success.successCode;
+
+            },
+            error: function error(_error) {
+                // error = error.responseJSON.errorCode;
+
             }
         });
     });

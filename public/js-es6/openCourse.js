@@ -88,45 +88,48 @@
            let data = {
                labels: ['Completed', 'Not Completed'],
                datasets: [{
-                   data: [course.completedNumSections, course.totalNumSections - 
+                    data: [course.completedNumSections, course.totalNumSections - 
                           course.completedNumSections],
-                   backgroundColor: [
-                       'rgba(50, 205, 50, 0.2)',
-                       'rgba(126, 126, 126, 0.2)'
-                   ],
-                   borderColor: [
-                       'rgba(50, 205, 50, 1)',
-                       'rgba(126, 126, 126, 1)'
-                   ],
-                   borderWidth: 1
+                    backgroundColor: [
+                        'rgba(50, 205, 50, 0.2)',
+                        'rgba(126, 126, 126, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(50, 205, 50, 1)',
+                        'rgba(126, 126, 126, 1)'
+                    ],
+                    borderWidth: 1
                }]
            };
    
-           chartData.push({
-               graph: course.id,
-               context: context,
-               data: data,
-               type: 'doughnut'
-           });
+            chartData.push({
+                graph: course.id,
+                context: context,
+                data: data,
+                type: 'doughnut'
+            });
         });
    
         // Render charts:
-       chartData.forEach((entry) => {
-           entry.graph = new Chart(entry.context, {
-               type: entry.type,
-               data: entry.data,
-               options: {
-                   legend: {
-                       display: true,
-                       position: 'left'
-                   },
-                   responsive: true,
-                   maintainAspectRatio: false
-               }
-           });
-       });
+        chartData.forEach((entry) => {
+            entry.graph = new Chart(entry.context, {
+                type: entry.type,
+                data: entry.data,
+                options: {
+                    legend: {
+                        display: true,
+                        position: 'left'
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        });
      })();
 
+     let currentOpenModalID;
+
+     // Open course modal:
      $('.course-card-title').click((event) => {
         let title = $(event.target).text();
         let id = parseInt($(event.target).attr('data-id'));
@@ -134,6 +137,8 @@
         let courseData = savedCourses.reduce((previous, current) => { 
             return (current.id === id) ? current : previous; 
         }, null);
+
+        currentOpenModalID = id;
 
         // For debug purposes:
         // console.log(title);
@@ -147,7 +152,7 @@
         
         // Render course progress bar:
         var context = $('#modal-course-progress-chart')[0].getContext('2d');
-        var stackedBar = new Chart(context, {
+        var bar = new Chart(context, {
             type: 'horizontalBar',
             data: {
                 labels: ['Completed'],
@@ -180,5 +185,54 @@
                 maintainAspectRatio: false
             }
         });
-     });
+    });
+
+    // Delete course by making AJAX DELETE request to server:
+    $('#btn-modal-delete').click(() => {
+        let data = {
+            id: currentOpenModalID
+        };
+
+        $('#loading-title').html('');
+        $('#loading-title').html('Deleting course');
+        $('#loading-container').css('z-index', '99999');
+        $('#loading-container').css('display', 'block');
+
+        $.ajax({
+            type: "DELETE",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            url: "/delete-course",
+            success: function(success) {
+                success = success.successCode;
+
+                $('#loading-title').html('');
+                $('#loading-title').html('Course successfully deleted.');
+
+                setTimeout(() => {
+                    $('#loading-container').css('display', 'none');
+                    setTimeout(() => {
+                        location.reload(false);
+                    }, 100);
+                }, 1000);
+            
+                console.log(success);
+            },
+            error: function(error) {
+                error = error.responseJSON.errorCode;
+
+                $('#loading-title').html('');
+                $('#loading-title').html('A problem occurred deleting the course.');
+
+                setTimeout(() => {
+                    $('#loading-container').css('display', 'none');
+                }, 1000);
+
+                console.log(error);
+
+            }
+        });
+    });
+
+    
  });
