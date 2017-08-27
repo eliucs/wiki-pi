@@ -61,6 +61,7 @@ $("#btn-create-course").click(function () {
     });
   } else {
     $("#loading-container").css("display", "block");
+    $("#loading-container").css("z-index", "99999");
 
     errorFields.forEach(function (error) {
       $(error).css("display", "none");

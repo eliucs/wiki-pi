@@ -157,18 +157,42 @@ $(document).ready(function () {
             id: currentOpenModalID
         };
 
+        $('#loading-title').html('');
+        $('#loading-title').html('Deleting course');
+        $('#loading-container').css('z-index', '99999');
+        $('#loading-container').css('display', 'block');
+
         $.ajax({
             type: "DELETE",
             data: JSON.stringify(data),
             contentType: "application/json",
             url: "/delete-course",
             success: function success(_success) {
-                // success = success.successCode;
+                _success = _success.successCode;
 
+                $('#loading-title').html('');
+                $('#loading-title').html('Course successfully deleted.');
+
+                setTimeout(function () {
+                    $('#loading-container').css('display', 'none');
+                    setTimeout(function () {
+                        location.reload(false);
+                    }, 100);
+                }, 1000);
+
+                console.log(_success);
             },
             error: function error(_error) {
-                // error = error.responseJSON.errorCode;
+                _error = _error.responseJSON.errorCode;
 
+                $('#loading-title').html('');
+                $('#loading-title').html('A problem occurred deleting the course.');
+
+                setTimeout(function () {
+                    $('#loading-container').css('display', 'none');
+                }, 1000);
+
+                console.log(_error);
             }
         });
     });

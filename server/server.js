@@ -26,8 +26,13 @@ const staticPath = path.join(__dirname, '../public');
 app.use(express.static(staticPath));
 hbs.registerPartials(partialsPath);
 app.set('view engine', 'hbs');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({
+  limit: '50mb'
+}));
+app.use(bodyParser.urlencoded({ 
+  limit: '50mb',
+  extended: false 
+}));
 app.use(session({
   secret: '<Wiki-Pi Secret>',
   resave: false,
@@ -232,5 +237,5 @@ app.delete('/delete-course', (req, res) => {
 });
 
 module.exports = {
-  app: app
+  app
 };
