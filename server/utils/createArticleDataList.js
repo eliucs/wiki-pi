@@ -12,10 +12,7 @@
 
 const path = require('path');
 const sqlite = require('sqlite-sync');
-
-const codes = require('./codes');
 const { convertArticleDataToJSON } = require('./convertArticleDataToJSON');
-
 const ARTICLE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/articles');
 
 const createArticleDataList = (articleIndexList) => {

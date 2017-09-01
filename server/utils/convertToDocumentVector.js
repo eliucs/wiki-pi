@@ -10,8 +10,8 @@
 **/
 
 const natural = require('natural');
-const DocumentVector = require('./documentVector');
 const {isStopWord} = require('./stopWords');
+const DocumentVector = require('./documentVector');
 const tokenizer = new natural.WordTokenizer();
 
 const convertToDocumentVector = (articleData) => {

@@ -17,8 +17,8 @@
      }
 
      // Helper function to format dates from timestamp:
-     let formatDate = (timestamp) => {
-        let monthNames = [
+     const formatDate = (timestamp) => {
+        const monthNames = [
             "January", "February", "March",
             "April", "May", "June", "July",
             "August", "September", "October",
@@ -204,7 +204,10 @@
             contentType: "application/json",
             url: "/delete-course",
             success: function(success) {
-                success = success.successCode;
+                success = success.courseDeleted;
+                if (success) {
+                    console.log('Success: course deleted.');
+                }
 
                 $('#loading-title').html('');
                 $('#loading-title').html('Course successfully deleted.');
@@ -215,11 +218,16 @@
                         location.reload(false);
                     }, 100);
                 }, 1000);
-            
-                console.log(success);
             },
             error: function(error) {
-                error = error.responseJSON.errorCode;
+                error = error.responseJSON;
+                if (err.deleteCourseNullID) {
+                    console.log('Error: deleting course with null id.');
+                } else if (err.deletingCourseFromDB) {
+                    console.log('Error: a problem occurred deleting course from database.');
+                } else {
+                    console.log('Error: a problem occurred.');
+                }
 
                 $('#loading-title').html('');
                 $('#loading-title').html('A problem occurred deleting the course.');
@@ -227,9 +235,6 @@
                 setTimeout(() => {
                     $('#loading-container').css('display', 'none');
                 }, 1000);
-
-                console.log(error);
-
             }
         });
     });

@@ -22,7 +22,6 @@
 
 const path = require('path');
 const sqlite = require('sqlite-sync');
-const codes = require('./codes');
 const DocumentVector = require('./documentVector');
 const { convertToDocumentVector } = require('./convertToDocumentVector');
 const { isEmpty } = require('./isEmpty');

@@ -148,7 +148,10 @@ $(document).ready(() => {
       contentType: "application/json",
       url: "/finish-course-creation",
       success: function(success) {
-        success = success.successCode;
+        success = success.savedCourse;
+        if (success) {
+          console.log('Success: course saved.');
+        }
 
         $('#loading-title').html('');
         $('#loading-title').html('Course successfully saved.');
@@ -158,8 +161,17 @@ $(document).ready(() => {
           window.location.href = '/open-course';
         }, 1000);
       },
-      error: function(error) {
-        error = error.responseJSON.errorCode;
+      error: function(err) {
+        err = err.responseJSON;
+        if (err.nullCourseResults) {
+          console.log('Error: course results being saved is null.');
+        } else if (err.creatingTable) {
+          console.log('Error: creating table while saving course.');
+        } else if (err.insertingIntoTable) {
+          console.log('Error: inserting into table while saving course.');
+        } else {
+          console.log('Error: a problem occured.');
+        }
 
         $('#loading-title').html('');
         $('#loading-title').html('A problem occurred saving the course.');
@@ -167,20 +179,6 @@ $(document).ready(() => {
         setTimeout(() => {
           $("#loading-container").css("display", "none");
         }, 1000);
-
-        switch(error) {
-          case ERROR_NULL_COURSE_RESULTS:
-            console.log('Error: null course results.');
-            break;
-          case ERROR_NULL_CREATING_TABLE_SAVING_COURSE:
-            console.log('Error: problem with database.');
-            break;
-          case ERROR_NULL_INSERTING_INTO_TABLE_SAVING_COURSE:
-            console.log('Error: saving to database.');
-            break;
-          default:
-            break;
-        }
       }
     });
   });

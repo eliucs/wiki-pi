@@ -11,7 +11,6 @@ const path = require('path');
 const session = require('express-session');
 
 // Utils:
-const codes = require('./utils/codes');
 const { createArticleDataList } = require('./utils/createArticleDataList');
 const { deleteCourse } = require('./utils/deleteCourse');
 const { normalizePercentage } = require('./utils/normalizePercentage');
@@ -263,7 +262,7 @@ app.delete('/delete-course', (req, res) => {
     if (err.deleteCourseNullID) {
       console.log('Error: deleting course with null id.');
     } else if (err.deletingCourseFromDB) {
-      console.log('Error: a problem occured deleting course from database.');
+      console.log('Error: a problem occurred deleting course from database.');
     }
     return res.status(400).send(err);
   });
