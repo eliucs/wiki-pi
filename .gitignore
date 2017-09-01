@@ -1,5 +1,5 @@
 node_modules
-playground
+archive
 *.log
 server/config/config.json
 .idea

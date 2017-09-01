@@ -2,7 +2,9 @@
  * 
  * deleteCourse.js
  * 
- * This module deletes a course from the courses database.
+ * This module deletes a course from the courses database, and returns 
+ * a Promise. If it was successful deleting the course, it resolves the 
+ * Promise, otherwise it rejects the Promise with an error Object.
  * 
  **/
 
@@ -13,23 +15,24 @@ const codes = require('./codes');
 
 const COURSES_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
 
-const deleteCourse = (id, callback) => {
-    if (!id) {
-        console.log('Error: deleting course with null id.');
-        return callback(codes.ERROR_NULL_ID_DELETING_COURSE, undefined, undefined);
-    }
-
-    const db = new sqlite.Database(COURSES_LOCATION);
-
-    db.run(`DELETE FROM courses_table WHERE id=?`, [id], (err) => {
-
-        if (err) {
-            console.log('Error: a problem occured deleting course from database.');
-            return callback(codes.ERROR_DELETING_COURSE_FROM_DB, undefined, db);
+const deleteCourse = (id) => {
+    return new Promise((resolve, reject) => {
+        if (!id) {
+            reject({ deleteCourseNullID: true });
+            return;
         }
-
-        console.log('Success: deleted course.');
-        return callback(undefined, codes.SUCCESS_DELETING_COURSE, db);
+    
+        const db = new sqlite.Database(COURSES_LOCATION);
+    
+        db.run(`DELETE FROM courses_table WHERE id=?`, [id], (err) => {
+            if (err) {
+                db.close();
+                reject({ deletingCourseFromDB: true });
+                return;
+            }
+            db.close();
+            resolve();
+        });
     });
 };
 

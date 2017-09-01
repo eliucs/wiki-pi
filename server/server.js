@@ -3,11 +3,13 @@ require('./config/config');
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const express = require('express');
-const session = require('express-session');
 const fuzzy = require('fuzzy');
-const path = require('path');
 const hbs = require('hbs');
+const marked = require('marked');
+const path = require('path');
+const session = require('express-session');
 
+// Utils:
 const codes = require('./utils/codes');
 const { createArticleDataList } = require('./utils/createArticleDataList');
 const { deleteCourse } = require('./utils/deleteCourse');
@@ -16,6 +18,18 @@ const { retrieveSavedCourses } = require('./utils/retrieveSavedCourses');
 const { saveCreatedCourse } = require('./utils/saveCreatedCourse');
 const { searchArticles } = require('./utils/searchArticles');
 const { searchQueryIndex } = require('./utils/searchQueryIndex');
+
+// Configure markdown renderer:
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+});
 
 var app = express();
 
@@ -47,11 +61,11 @@ app.listen(port, () => {
 });
 
 app.get('/', (req, res) => {
-  res.render('index.hbs');
+  return res.render('index.hbs');
 });
 
 app.get('/about', (req, res) => {
-  res.render('about.hbs', {
+  return res.render('about.hbs', {
     pageName: 'about',
     pageTitle: 'About'
   });
@@ -72,25 +86,25 @@ app.get('/new-course', (req, res) => {
   });
 });
 
+// GET /search-courses
 app.get('/search-courses', (req, res) => {
   const searchQuery = req.query.q;
 
-  searchQueryIndex(searchQuery, (err, results, db) => {
-    // Close the database connection:
-    db.close();
-
-    // Check if there was an error:
-    if (err) {
-      console.log('Error: retrieving search results from index.');
-      return res.status(400).send({
-        errorCode: codes.ERROR_NOT_ARTICLE_FOUND
-      });
-    }
-
+  searchQueryIndex(searchQuery)
+  .then((results) => {
     return res.status(200).send(results);
+  })
+  .catch((err, db) => {
+    if (err.nullSearchQuery) {
+      console.log('Error: searched with null searchQuery.');
+    } else if (err.queryIndexDB) {
+      console.log('Error: retrieving results after quering index.db');
+    }
+    return res.status(400).send(err);
   });
 });
 
+// POST /new-course
 app.post('/new-course', (req, res) => {
   let body = _.pick(req.body, [
     'startingArticle',
@@ -100,15 +114,8 @@ app.post('/new-course', (req, res) => {
   const startingArticle = body.startingArticle;
   const textSimilarity = normalizePercentage(body.textSimilarity);
 
-  searchArticles(startingArticle, textSimilarity, (err, results) => {
-    // Check if there was an error:
-    if (err) {
-      console.log('Error: creating course.');
-      return res.status(400).send({
-        errorCode: err
-      });
-    }
-
+  searchArticles({ startingArticle, textSimilarity })
+  .then((results) => {
     console.log('Results:');
     results.forEach((article) => {
       console.log(article);
@@ -120,11 +127,23 @@ app.post('/new-course', (req, res) => {
     };
 
     return res.status(200).send({
-      successCode: codes.SUCCESS_COURSE_CREATED
+      courseCreated: true
     });
+  })
+  .catch((err) => {
+    console.log(err);
+    if (err.nullStartingArticle) {
+      console.log('Error: the starting article is null.');
+    } else if (err.retrievingStartingArticleIndex) {
+      console.log('Error: retrieving starting article from index db.');
+    } else if (err.retrievingStartingArticleData) {
+      console.log('Error: retrieving starting article data from articles db.');
+    }
+    return res.status(400).send(err);
   });
 });
 
+// GET /new-course-results
 app.get('/new-course-results', (req, res) => {
   // Redirect if course has not yet been created:
   if (!req.session.courseCreation ||
@@ -135,20 +154,10 @@ app.get('/new-course-results', (req, res) => {
 
   const articleIndexList = req.session.courseCreation.articleIndexList;
 
-  createArticleDataList(articleIndexList, (err, results) => {
-    // Check if there was an error:
-    if (err) {
-      console.log('Error: creating article data list.');
-      return res.status(400).send({
-        errorCode: err
-      });
-    }
-
-    // For debug purposes:
-    // console.log(JSON.stringify(results, undefined, 2));
-
+  createArticleDataList(articleIndexList)
+  .then((results) => {
     const articlesFound = results.length;
-
+    
     return res.render('new-course-results.hbs', {
       pageName: 'new-course-results',
       pageTitle: 'New Course Results',
@@ -156,59 +165,72 @@ app.get('/new-course-results', (req, res) => {
       articlesFound: articlesFound,
       articlesResults: JSON.stringify(results)
     });
+  })
+  .catch((err) => {
+    console.log(err);
+    if (err.nullArticleIndexList) {
+      console.log('Error: the article index list is null.');
+    }
+    return res.status(400).send(err);
   });
 });
 
+// POST /finish-course-creation
 app.post('/finish-course-creation', (req, res) => {
   let body = _.pick(req.body, [
     'results'
   ]);
 
+  // For debug purposes:
   console.log(body);
 
   let courseResults = body.results;
 
-  saveCreatedCourse(courseResults, (err, results, db) => {
-    // Close the database connection:
-    if (db) {
-      db.close();
-    }
-    
-    // Check if there was an error:
-    if (err) {
-      console.log('Error: saving created course.');
-      return res.status(400).send({
-        errorCode: err
-      });
-    }
-
+  saveCreatedCourse(courseResults)
+  .then((results) => {
     return res.status(200).send({
-      successCode: codes.SUCCESS_SAVING_COURSE_CREATION
+      savedCourse: true
     });
+  })
+  .catch((err) => {
+    console.log(err);
+    if (err.nullCourseResults) {
+      console.log('Error: course results being saved is null.');
+    } else if (err.creatingTable) {
+      console.log('Error: creating table while saving course.');
+    } else if (err.insertingIntoTable) {
+      console.log('Error: inserting into table while saving course.');
+    }
+    return res.status(400).send(err);
   });
 });
 
+// GET /open-course
 app.get('/open-course', (req, res) => {
-  retrieveSavedCourses((err, results, db) => {
-    // Close the database connection:
-    if (db) {
-      db.close();
-    }
-
-    // Check if there was an error:
-    if (err) {
-      console.log('Error: retrieving saved courses.');
-    }
-
+  retrieveSavedCourses()
+  .then((results) => {
     return res.render('open-course.hbs', {
       pageName: 'open-course',
       pageTitle: 'Open An Existing Course',
       new: 0,
       savedCourses: JSON.stringify(results)
     });
+  })
+  .catch((err) => {
+    console.log(err);
+    if (err.retrievingSavedCourses) {
+      console.log('Error: retrieving search results after quering courses.db.');
+    }
+    return res.render('open-course.hbs', {
+      pageName: 'open-course',
+      pageTitle: 'Open An Existing Course',
+      new: 0,
+      savedCourses: []
+    });
   });
 });
 
+// DELETE /delete-course
 app.delete('/delete-course', (req, res) => {
   let body = _.pick(req.body, [
     'id'
@@ -216,23 +238,21 @@ app.delete('/delete-course', (req, res) => {
 
   console.log(body.id);
 
-  deleteCourse(body.id, (err, success, db) => {
-    // Close the database connection:
-    if (db) {
-      db.close();
-    }
-
-    // Check if there was an error:
-    if (err) {
-      console.log(`Error: deleting course with id ${body.id}.`);
-      return res.status(400).send({
-        errorCode: err
-      });
-    }
-
+  deleteCourse(body.id)
+  .then(() => {
+    console.log('Success: deleted course.');
     return res.status(200).send({
-      successCode: success
+      courseDeleted: true
     });
+  })
+  .catch((err) => {
+    console.log(err);
+    if (err.deleteCourseNullID) {
+      console.log('Error: deleting course with null id.');
+    } else if (err.deletingCourseFromDB) {
+      console.log('Error: a problem occured deleting course from database.');
+    }
+    return res.status(400).send(err);
   });
 });
 

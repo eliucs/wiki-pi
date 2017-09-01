@@ -3,45 +3,49 @@
 * searchQueryIndex.js
 *
 * This module queries the index file (located at /Volumes/WIKI-DRIVE/index/
-* index.db) and uses the SQLite LIKE operator to filter them by the search
-* query.
+* index.db), and uses the SQL LIKE operator to filter them out by the search 
+* query, and returns a Promise. If the search is successfull, it resolves the 
+* Promise with the data (limit 10 matches), otherwise, it rejects the 
+* Promise with an error Object.
 *
 **/
 
 const path = require('path');
 const sqlite = require('sqlite3').verbose();
-
 const INDEX_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/index/index.db');
 
+const searchQueryIndex = (searchQuery) => {
+  return new Promise((resolve, reject) => {
+    const db = new sqlite.Database(INDEX_LOCATION);
 
-const searchQueryIndex = (searchQuery, callback) => {
-  const db = new sqlite.Database(INDEX_LOCATION);
+    // Check if searchQuery is not null:
+    if (!searchQuery) {
+      db.close();
+      reject({ nullSearchQuery: true });
+    }
+    
+    db.serialize(() => {
+      const query = `SELECT title
+                     FROM index_table
+                     WHERE title
+                     LIKE "${searchQuery}%"
+                     LIMIT 10;`;
+      
+      db.all(query, (err, results) => {
+        // Check if there was a database error:
+        if (err) {
+          // console.log('Error: retrieving results after quering index.db');
+          reject({ queryIndexDB: true }, db);
+          return;
+        }
 
-  // Check if searchQuery is not null, otherwise callback undefined data:
-  if (!searchQuery) {
-    console.log('Error: searched with null searchQuery.');
-    return callback(undefined, undefined, db);
-  }
+        results = results.map((x) => {
+          return x.title;
+        });
 
-  db.serialize(() => {
-    const query = `SELECT title
-                   FROM index_table
-                   WHERE title
-                   LIKE "${searchQuery}%"
-                   LIMIT 10;`;
-
-    db.all(query, (err, results) => {
-      // Check if there was a database error:
-      if (err) {
-        console.log('Error: retrieving search results after quering index.db.');
-        return callback(true, undefined, db);
-      }
-
-      results = results.map((x) => {
-        return x.title;
+        db.close();
+        resolve(results, db);
       });
-
-      return callback(undefined, results, db);
     });
   });
 };
