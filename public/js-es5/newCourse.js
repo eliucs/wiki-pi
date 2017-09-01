@@ -78,36 +78,28 @@ $("#btn-create-course").click(function () {
       contentType: "application/json",
       url: "/new-course",
       success: function success(_success) {
-        _success = _success.successCode;
-        $("#loading-container").css("display", "none");
-
-        if (_success === SUCCESS_COURSE_CREATED) {
+        _success = _success.courseCreated;
+        if (_success) {
           console.log('Success: course created.');
         }
 
-        window.location.href = '/new-course-results';
-      },
-      error: function error(_error) {
-        _error = _error.responseJSON.errorCode;
         $("#loading-container").css("display", "none");
 
-        switch (_error) {
-          case ERROR_COURSE_NOT_CREATED:
-            console.log('Error: course not created.');
-            break;
-          case ERROR_NULL_STARTING_ARTICLE:
-            console.log('Error: the starting article request was null.');
-            break;
-          case ERROR_RETRIEVING_STARTING_ARTICLE_INDEX:
-            console.log('Error: there was a problem retrieving the starting ' + 'article index from the database.');
-            break;
-          case ERROR_RETRIEVING_STARTING_ARTICLE_DATA:
-            console.log('Error: there was a problem retrieving the starting ' + 'article data from the database.');
-            break;
-          default:
-            console.log('Error: a problem occurred.');
-            break;
+        window.location.href = '/new-course-results';
+      },
+      error: function error(err) {
+        err = err.responseJSON;
+        if (err.nullStartingArticle) {
+          console.log('Error: the starting article is null.');
+        } else if (err.retrievingStartingArticleIndex) {
+          console.log('Error: retrieving starting article from index db.');
+        } else if (err.retrievingStartingArticleData) {
+          console.log('Error: retrieving starting article data from articles db.');
+        } else {
+          console.log('Error: a problem occurred.');
         }
+
+        $("#loading-container").css("display", "none");
       }
     });
   }

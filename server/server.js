@@ -124,9 +124,12 @@ app.post('/new-course', (req, res) => {
   ]);
 
   const startingArticle = body.startingArticle;
-  const textSimilarity = normalizePercentage(body.textSimilarity);
+  const percentage = body.textSimilarity;
 
-  searchArticles({ startingArticle, textSimilarity })
+  normalizePercentage(percentage)
+  .then((textSimilarity) => {
+    return searchArticles({ startingArticle, textSimilarity });
+  })
   .then((results) => {
     console.log('Results:');
     results.forEach((article) => {
@@ -144,7 +147,11 @@ app.post('/new-course', (req, res) => {
   })
   .catch((err) => {
     console.log(err);
-    if (err.nullStartingArticle) {
+    if (err.percentageNotANumber) {
+      console.log('Error: percentage is not a number.');
+    } else if (err.percentageIncorrectRange) {
+      console.log('Error: percentage is not within range 0 - 100.');
+    } else if (err.nullStartingArticle) {
       console.log('Error: the starting article is null.');
     } else if (err.retrievingStartingArticleIndex) {
       console.log('Error: retrieving starting article from index db.');

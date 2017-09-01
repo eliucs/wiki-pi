@@ -168,7 +168,10 @@ $(document).ready(function () {
             contentType: "application/json",
             url: "/delete-course",
             success: function success(_success) {
-                _success = _success.successCode;
+                _success = _success.courseDeleted;
+                if (_success) {
+                    console.log('Success: course deleted.');
+                }
 
                 $('#loading-title').html('');
                 $('#loading-title').html('Course successfully deleted.');
@@ -179,11 +182,16 @@ $(document).ready(function () {
                         location.reload(false);
                     }, 100);
                 }, 1000);
-
-                console.log(_success);
             },
             error: function error(_error) {
-                _error = _error.responseJSON.errorCode;
+                _error = _error.responseJSON;
+                if (err.deleteCourseNullID) {
+                    console.log('Error: deleting course with null id.');
+                } else if (err.deletingCourseFromDB) {
+                    console.log('Error: a problem occurred deleting course from database.');
+                } else {
+                    console.log('Error: a problem occurred.');
+                }
 
                 $('#loading-title').html('');
                 $('#loading-title').html('A problem occurred deleting the course.');
@@ -191,8 +199,6 @@ $(document).ready(function () {
                 setTimeout(function () {
                     $('#loading-container').css('display', 'none');
                 }, 1000);
-
-                console.log(_error);
             }
         });
     });
