@@ -10,9 +10,7 @@
 
 const path = require('path');
 const sqlite = require('sqlite3').verbose();
-
 const codes = require('./codes');
-
 const COURSES_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
 
 const deleteCourse = (id) => {

@@ -4,6 +4,7 @@ const _ = require('lodash');
 const bodyParser = require('body-parser');
 const express = require('express');
 const fuzzy = require('fuzzy');
+const fs = require('fs');
 const hbs = require('hbs');
 const marked = require('marked');
 const path = require('path');
@@ -65,16 +66,28 @@ app.get('/', (req, res) => {
 });
 
 app.get('/about', (req, res) => {
-  return res.render('about.hbs', {
-    pageName: 'about',
-    pageTitle: 'About'
+  let aboutFilePath = 'content/information/about.md';
+  fs.readFile(aboutFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/');
+    }
+    return res.render('information.hbs', {
+      pageContent: marked(data)
+    });
   });
 });
 
 app.get('/help', (req, res) => {
-  res.render('help.hbs', {
-    pageName: 'help',
-    pageTitle: 'Help'
+  let helpFilePath = 'content/information/help.md';
+  fs.readFile(helpFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/');
+    }
+    return res.render('information.hbs', {
+      pageContent: marked(data)
+    });
   });
 });
 

@@ -11,7 +11,7 @@
 
 const natural = require('natural');
 const DocumentVector = require('./documentVector');
-const {isStopWord, stopWordsEnList} = require('./stopWords');
+const {isStopWord} = require('./stopWords');
 const tokenizer = new natural.WordTokenizer();
 
 const convertToDocumentVector = (articleData) => {
@@ -26,7 +26,7 @@ const convertToDocumentVector = (articleData) => {
   .join(' '))
   .filter((token) => {
     return !isNumber(token) &&
-           !isStopWord(token, stopWordsEnList) &&
+           !isStopWord(token) &&
            token.length > 1;
   })
   .map((token) => {

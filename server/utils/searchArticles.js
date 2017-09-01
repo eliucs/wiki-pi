@@ -22,12 +22,10 @@
 
 const path = require('path');
 const sqlite = require('sqlite-sync');
-
 const codes = require('./codes');
 const DocumentVector = require('./documentVector');
 const { convertToDocumentVector } = require('./convertToDocumentVector');
 const { isEmpty } = require('./isEmpty');
-
 const INDEX_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/index/index.db');
 const ARTICLE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/articles');
 const ADJ_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/adj');

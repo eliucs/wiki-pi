@@ -1,28 +1,30 @@
+/* Fonts */
 @font-face {
   font-family: 'Roboto Thin';
-  src: url('../fonts/roboto/Roboto-Thin.ttf');
+  src: url('../font/roboto/Roboto-Thin.ttf');
 }
 
 @font-face {
   font-family: 'Roboto Light';
-  src: url('../fonts/roboto/Roboto-Light.ttf');
+  src: url('../font/roboto/Roboto-Light.ttf');
 }
 
 @font-face {
   font-family: 'Roboto Medium';
-  src: url('../fonts/roboto/Roboto-Medium.ttf');
+  src: url('../font/roboto/Roboto-Medium.ttf');
 }
 
 @font-face {
   font-family: 'Roboto Bold';
-  src: url('../fonts/roboto/Roboto-Bold.ttf');
+  src: url('../font/roboto/Roboto-Bold.ttf');
 }
 
 @font-face {
   font-family: 'Roboto Black';
-  src: url('../fonts/roboto/Roboto-Black.ttf');
+  src: url('../font/roboto/Roboto-Black.ttf');
 }
 
+/* All pages */
 *:focus {
   outline: none !important;
 }
@@ -34,6 +36,7 @@ html, body {
   height: 100%;
 }
 
+/* Footer */
 .footer-main {
   position: absolute;
   bottom: 0.5em;
@@ -55,6 +58,7 @@ html, body {
   color: #add8e6;
 }
 
+/* Home page */
 .main-area {
   width: 50%;
   float: left;
@@ -600,7 +604,7 @@ div > div > div.form-group.row.course-form-item > span {
 
 .loading-container {
   position: fixed;
-  z-index: 1;
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
@@ -790,4 +794,19 @@ div > div > div.form-group.row.course-form-item > span {
 .modal-course-progress-chart {
   margin-top: 1em;
   height: 7.5em !important;
+}
+
+.info-container {
+  margin-top: 6em;
+  margin-bottom: 3em;
+}
+
+.info-container h1,
+.info-container h2,
+.info-container h3,
+.info-container h4,
+.info-container h5,
+.info-container h6,
+.info-container p {
+  font-family: 'Roboto Light';
 }
