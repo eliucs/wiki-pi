@@ -3,15 +3,17 @@
 * convertToDocumentVector.js
 *
 * This module takes in the contents of an article document, maps and joins it
-* into a string input, tokenizes it using the natural.js library, filters out
-* numerical strings and stop words and returns a DocumentVector from the
-* tokenized string.
+* into a string input, tokenizes it using the natural.js library, reduces words
+* down to their stems using Porter's Stemming Algorithm, filters out 
+* non-alphabetical characters (and removes the empty string), stop words, and 
+* returns a DocumentVector from the tokenized string.
 *
 **/
 
 const natural = require('natural');
 const {isStopWord} = require('./stopWords');
 const DocumentVector = require('./documentVector');
+const { PorterStemmer } = require('./porterStemmer');
 const tokenizer = new natural.WordTokenizer();
 
 const convertToDocumentVector = (articleData) => {
@@ -24,14 +26,18 @@ const convertToDocumentVector = (articleData) => {
     return entry.txt;
   })
   .join(' '))
-  .filter((token) => {
-    return !isNumber(token) &&
-           !isStopWord(token) &&
-           token.length > 1;
-  })
   .map((token) => {
-    return token.toLowerCase();
+    return PorterStemmer.stem(
+      token
+      .toLowerCase()
+      .replace(/\W/g , '')
+    );
+  })
+  .filter((token) => {
+    return !isStopWord(token) && token.length > 1 && !isNumber(token);
   });
+
+  console.log(content);
 
   return new DocumentVector(content);
 };

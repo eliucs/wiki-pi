@@ -12,7 +12,9 @@
 *
 * As the algorithm is traversing this graph of articles, they are filtered by
 * comparing their DocumentVector cosine distances to the given text
-* similarity threshold. Articles that are below the threshold are dropped and
+* similarity threshold. Before the articles are converted to vectors, they
+* are ran through Porter's Stemming Algorithm to normalize words to their 
+* stems. Articles that are below the threshold are dropped and
 * their adjacency lists are not further considered in the graph traversal.
 *
 * Since we need to use a Queue (synchronously) for BFS, we use the sqlite-sync
