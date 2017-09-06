@@ -1,5 +1,6 @@
 module.exports = {
     "env": {
+        "browser": true,
         "es6": true,
         "node": true
     },
@@ -10,7 +11,7 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            4
+            "tab"
         ],
         "linebreak-style": [
             "error",
