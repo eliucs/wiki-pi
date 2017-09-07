@@ -19,6 +19,7 @@
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "natural": "^0.5.4",
+    "sentence-tokenizer": "0.0.8",
     "sqlite-sync": "^0.3.6",
     "sqlite3": "^3.1.9"
   },
