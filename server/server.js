@@ -261,8 +261,7 @@ app.post('/open-course', (req, res) => {
   openCourse(body.id)
   .then((result) => {
     console.log('Success: opened course.');
-    console.log(result);
-
+    req.session.courseOpened = result;
     return res.status(200).send({
       courseOpened: true
     });
@@ -306,7 +305,17 @@ app.delete('/delete-course', (req, res) => {
 
 // GET /course-overview
 app.get('/course-overview', (req, res) => {
-  return res.render('course-overview.hbs');
+  // Redirect if current session has not opened a course:
+  if (!req.session.courseOpened) {
+    console.log('Redirecting: course not yet opened.');
+    return res.redirect('/open-course');
+  }
+
+  console.log(req.session.courseOpened);
+
+  return res.render('course-overview.hbs', {
+    courseOpened: JSON.stringify(req.session.courseOpened)
+  });
 });
 
 module.exports = {

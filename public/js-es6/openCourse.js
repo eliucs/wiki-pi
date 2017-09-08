@@ -211,7 +211,9 @@
 
                 setTimeout(() => {
                     $('#loading-container').css('display', 'none');
-                    
+                    setTimeout(() => {
+                        window.location.href = '/course-overview';
+                    }, 100);
                 }, 1000);
             },
             error: function(error) {
@@ -229,10 +231,7 @@
                     $('#loading-container').css('display', 'none');
                 }, 1000);
             }
-        })
-
-
-
+        });
     });
 
     // Delete course by making AJAX DELETE request to server:

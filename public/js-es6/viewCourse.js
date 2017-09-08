@@ -9,6 +9,10 @@
  $(document).ready(() => {
     console.log('Test');
 
+    // For debugging:
+    console.log(courseOpened);
+
+
     // Render course statistics charts (course progress, time spent, grade):
     let chartData = [];
     let contextCourseProgress = $('#course-progress-chart')[0].getContext('2d');

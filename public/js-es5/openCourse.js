@@ -175,6 +175,9 @@ $(document).ready(function () {
 
                 setTimeout(function () {
                     $('#loading-container').css('display', 'none');
+                    setTimeout(function () {
+                        window.location.href = '/course-overview';
+                    }, 100);
                 }, 1000);
             },
             error: function error(_error) {
