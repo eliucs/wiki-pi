@@ -151,6 +151,50 @@ $(document).ready(function () {
         });
     });
 
+    // Open course by making AJAX POST request to server:
+    $('#btn-modal-open').click(function () {
+        var data = {
+            id: currentOpenModalID
+        };
+
+        $('#loading-title').html('');
+        $('#loading-title').html('Opening course');
+        $('#loading-container').css('z-index', '99999');
+        $('#loading-container').css('display', 'block');
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: '/open-course',
+            success: function success(_success) {
+                _success = _success.courseOpened;
+                if (_success) {
+                    console.log('Success: course opened.');
+                }
+
+                setTimeout(function () {
+                    $('#loading-container').css('display', 'none');
+                }, 1000);
+            },
+            error: function error(_error) {
+                _error = _error.responseJSON;
+                if (err.openingCourseFromDB) {
+                    console.log('Error: a problem occurred opening course from database.');
+                } else {
+                    console.log('Error: a problem occurred.');
+                }
+
+                $('#loading-title').html('');
+                $('#loading-title').html('A problem occurred opening the course.');
+
+                setTimeout(function () {
+                    $('#loading-container').css('display', 'none');
+                }, 1000);
+            }
+        });
+    });
+
     // Delete course by making AJAX DELETE request to server:
     $('#btn-modal-delete').click(function () {
         var data = {
@@ -167,9 +211,9 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             contentType: "application/json",
             url: "/delete-course",
-            success: function success(_success) {
-                _success = _success.courseDeleted;
-                if (_success) {
+            success: function success(_success2) {
+                _success2 = _success2.courseDeleted;
+                if (_success2) {
                     console.log('Success: course deleted.');
                 }
 
@@ -183,8 +227,8 @@ $(document).ready(function () {
                     }, 100);
                 }, 1000);
             },
-            error: function error(_error) {
-                _error = _error.responseJSON;
+            error: function error(_error2) {
+                _error2 = _error2.responseJSON;
                 if (err.deleteCourseNullID) {
                     console.log('Error: deleting course with null id.');
                 } else if (err.deletingCourseFromDB) {

@@ -187,6 +187,54 @@
         });
     });
 
+    // Open course by making AJAX POST request to server:
+    $('#btn-modal-open').click(() => {
+        let data = {
+            id: currentOpenModalID
+        };
+
+        $('#loading-title').html('');
+        $('#loading-title').html('Opening course');
+        $('#loading-container').css('z-index', '99999');
+        $('#loading-container').css('display', 'block');
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: '/open-course',
+            success: function(success) {
+                success = success.courseOpened;
+                if (success) {
+                    console.log('Success: course opened.');
+                }
+
+                setTimeout(() => {
+                    $('#loading-container').css('display', 'none');
+                    
+                }, 1000);
+            },
+            error: function(error) {
+                error = error.responseJSON;
+                if (err.openingCourseFromDB) {
+                    console.log('Error: a problem occurred opening course from database.');
+                } else {
+                    console.log('Error: a problem occurred.');
+                }
+                
+                $('#loading-title').html('');
+                $('#loading-title').html('A problem occurred opening the course.');
+
+                setTimeout(() => {
+                    $('#loading-container').css('display', 'none');
+                }, 1000);
+            }
+        })
+
+
+
+    });
+
     // Delete course by making AJAX DELETE request to server:
     $('#btn-modal-delete').click(() => {
         let data = {

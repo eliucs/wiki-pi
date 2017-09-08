@@ -12,6 +12,8 @@
 
 const path = require('path');
 const sqlite = require('sqlite3').verbose();
+const { getTextFromArticle } = require('./getTextFromArticle');
+const { TextSummarizer } = require('./textSummarizer');
 const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
 
  const saveCreatedCourse = (courseResults) => {
@@ -23,6 +25,19 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
             return;
         }
 
+        courseResults = courseResults.map((section) => {
+            return {
+                title: section.content[0].txt,
+                summarizedText: TextSummarizer.summarize(
+                    getTextFromArticle(section.content), 0.095),
+                completed: 0,
+                grades: {
+                    total: 1,
+                    correct: 0
+                }
+            };
+        });
+
         let title = courseResults[0].title;
         let id = Date.now();
         let course = JSON.stringify(courseResults);
@@ -30,10 +45,8 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
         let completedNumSections = 0;
         let completedSections = JSON.stringify([]);
 
-        // For debug purposes:
-        // console.log(title, id);
-        // console.log(course);
-        // console.log(COURSE_LOCATION);
+        // For debugging:
+        // console.log(JSON.stringify(courseResults, undefined, 2));
 
         const db = new sqlite.Database(COURSE_LOCATION);
         
@@ -68,7 +81,7 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
                 }
     
                 // Confirm that data has been inserted correctly:
-                db.all(`SELECT title, id, totalNumSections, 
+                db.all(`SELECT title, id, course, totalNumSections, 
                         completedNumSections, completedSections 
                         FROM courses_table 
                         WHERE id=${id}

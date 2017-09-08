@@ -14,6 +14,7 @@ const session = require('express-session');
 const { createArticleDataList } = require('./utils/createArticleDataList');
 const { deleteCourse } = require('./utils/deleteCourse');
 const { normalizePercentage } = require('./utils/normalizePercentage');
+const { openCourse } = require('./utils/openCourse');
 const { retrieveSavedCourses } = require('./utils/retrieveSavedCourses');
 const { saveCreatedCourse } = require('./utils/saveCreatedCourse');
 const { searchArticles } = require('./utils/searchArticles');
@@ -249,6 +250,34 @@ app.get('/open-course', (req, res) => {
   });
 });
 
+// POST /open-course
+app.post('/open-course', (req, res) => {
+  let body = _.pick(req.body, [
+    'id'
+  ]);
+
+  console.log(body.id);
+
+  openCourse(body.id)
+  .then((result) => {
+    console.log('Success: opened course.');
+    console.log(result);
+
+    return res.status(200).send({
+      courseOpened: true
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    if (err.openCourseNullID) {
+      console.log('Error: opening course with null id.');
+    } else if (err.openingCourseFromDB) {
+      console.log('Error: a problem occurred opening course from database.');
+    }
+    return res.status(400).send(err);
+  });
+});
+
 // DELETE /delete-course
 app.delete('/delete-course', (req, res) => {
   let body = _.pick(req.body, [
@@ -275,6 +304,7 @@ app.delete('/delete-course', (req, res) => {
   });
 });
 
+// GET /course-overview
 app.get('/course-overview', (req, res) => {
   return res.render('course-overview.hbs');
 });
