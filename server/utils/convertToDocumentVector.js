@@ -37,8 +37,6 @@ const convertToDocumentVector = (articleData) => {
     return !isStopWord(token) && token.length > 1 && !isNumber(token);
   });
 
-  console.log(content);
-
   return new DocumentVector(content);
 };
 

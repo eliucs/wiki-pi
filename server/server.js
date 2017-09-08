@@ -275,6 +275,10 @@ app.delete('/delete-course', (req, res) => {
   });
 });
 
+app.get('/course-overview', (req, res) => {
+  return res.render('course-overview.hbs');
+});
+
 module.exports = {
   app
 };

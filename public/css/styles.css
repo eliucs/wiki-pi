@@ -581,12 +581,12 @@ div > div > div.form-group.row.course-form-item > span {
   padding: 1em;
   height: 15em;
   border-radius: 0.1em;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
 .card-container:hover {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 5px 5px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
 }
 
 .course-card-title {
@@ -809,4 +809,94 @@ div > div > div.form-group.row.course-form-item > span {
 .info-container h6,
 .info-container p {
   font-family: 'Roboto Light';
+}
+
+/* Course page */
+.course-main-container {
+  margin-bottom: 5em;
+}
+
+.course-title {
+  font-family:'Roboto Thin';
+  font-size: 2.5em;
+}
+
+.course-id,
+.course-created {
+  font-family:'Roboto Light';
+  font-size: 1em;
+}
+
+.course-card-container {
+  margin-top: 1em;
+}
+
+.course-section-title {
+  font-family:'Roboto Thin';
+  font-size: 1.75em;
+  margin-bottom: 0.25em;
+}
+
+.course-stats-card {
+  background: #fff;
+  margin-bottom: 1em;
+  padding: 1em;
+  width: auto;
+  height: 10em;
+  border-radius: 0.1em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.course-content-card {
+  background: #fff;
+  padding: 1em;
+  width: auto;
+  height: 5em;
+  border-radius: 0.1em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.course-content-row {
+  margin-bottom: 0.75em;
+}
+
+.course-stats-title {
+  font-family:'Roboto Light';
+  font-size: 1em;
+}
+
+.course-stats-chart {
+  margin-top: 0.25em;
+}
+
+.course-grade {
+  font-family:'Roboto Thin';
+  font-size: 4em;
+  text-align: center;
+}
+
+.course-content-card-title {
+  font-family:'Roboto Thin';
+  font-size: 1.75em;
+  float: left;
+}
+
+.course-content-card-completion {
+  font-family:'Roboto Medium';
+  font-size: 1.25em;
+  float: right;
+}
+
+.completed {
+  color: #4CAF50;
+}
+
+.uncompleted {
+  color: #757575;
+}
+
+.course-content-card-title a {
+  text-decoration: none;
 }
