@@ -1,0 +1,1 @@
+"use strict";$(document).ready(function(){console.log(sectionData),$("#section-title").html(sectionData.title),$("#btn-mark-completed").click(function(){console.log("clicked")})});

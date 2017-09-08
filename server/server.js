@@ -13,6 +13,7 @@ const session = require('express-session');
 // Utils:
 const { createArticleDataList } = require('./utils/createArticleDataList');
 const { deleteCourse } = require('./utils/deleteCourse');
+const { isNumber } = require('./utils/isNumber');
 const { normalizePercentage } = require('./utils/normalizePercentage');
 const { openCourse } = require('./utils/openCourse');
 const { retrieveSavedCourses } = require('./utils/retrieveSavedCourses');
@@ -311,10 +312,33 @@ app.get('/course-overview', (req, res) => {
     return res.redirect('/open-course');
   }
 
-  console.log(req.session.courseOpened);
+  // For debugging:
+  // console.log(req.session.courseOpened);
 
   return res.render('course-overview.hbs', {
     courseOpened: JSON.stringify(req.session.courseOpened)
+  });
+});
+
+// GET /course-overview/:id
+app.get('/course-overview/:id', (req, res) => {
+  // Redirect if current session has not opened a course:
+  if (!req.session.courseOpened) {
+    console.log('Redirecting: course not yet opened.');
+    return res.redirect('/open-course');
+  } else if (!isNumber(req.params.id)) {
+    console.log('Redirecting: course ID not valid.');
+    return res.redirect('/course-overview');
+  }
+
+  const sections = JSON.parse(req.session.courseOpened.course);
+  if (req.params.id >= sections.length && req.params.id < 0) {
+    console.log('Redirecting: course ID not valid.');
+    return res.redirect('/course-overview');
+  }
+
+  return res.render('section.hbs', {
+    sectionData: JSON.stringify(sections[req.params.id])
   });
 });
 

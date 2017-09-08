@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html>
   {{> head}}
-  <body>
+  <body class="body-course-overview">
     {{> navbar}}
 
-    <div class="container-fluid offset-top course-main-container">
+    <div class="container offset-top course-main-container">
         <!-- Course Title -->
         <div class="row course-title-container">
-            <div class="col-md-1"></div>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div id="course-title" class="course-title"></div>
                 <div id="course-id" class="course-id"></div>
                 <div id="course-created" class="course-created"></div>
             </div>     
-            <div class="col-md-2"></div>
         </div>
 
         <!-- Course Statistics -->
         <div class="course-card-container">
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="course-section-title">
                         Statistics
                     </div>
                 </div>
-                <div class="col-md-2"></div>
             </div>
 
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-3">
+
+                <div class="col-md-4">
                     <div class="course-stats-card">
                         <div class="course-stats-title">
                             Course Progress
@@ -40,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="course-stats-card">
                         <div class="course-stats-title">
                             Time Spent
@@ -50,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="course-stats-card">
                         <div class="course-stats-title">
                             Grade
@@ -58,20 +54,17 @@
                         <div id="course-grade" class="course-grade"></div>
                     </div>
                 </div>
-                <div class="col-md-2"></div>
             </div>
         </div>
 
         <!-- Course Content Sections -->
         <div class="course-card-container">
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="course-section-title">
                         Sections
                     </div>
                 </div>
-                <div class="col-md-2"></div>
             </div>
 
             <div id="course-section-container"></div>

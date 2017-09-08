@@ -7,10 +7,8 @@
  */
 
  $(document).ready(() => {
-    console.log('Test');
-
     // For debugging:
-    console.log(courseOpened);
+    // console.log(courseOpened);
 
     // Helper function to format dates from timestamp:
     const formatDate = (timestamp) => {
@@ -151,7 +149,7 @@
     // Render sections:
     let courseSectionContainer = $('#course-section-container');
     let course = JSON.parse(courseOpened.course);
-    course.forEach((section) => {
+    course.forEach((section, i) => {
         const title = section.title;
         const text = section.summarizedText;
         const completed = !!section.completed;
@@ -159,21 +157,17 @@
         let s = $(document.createElement('div'))
         .addClass('row course-content-row')
         .append($(document.createElement('div'))
-            .addClass('col-md-1'))
-        .append($(document.createElement('div'))
-            .addClass('col-md-9')
+            .addClass('col-md-12')
             .append($(document.createElement('div'))
                 .addClass('course-content-card')
                 .append($(document.createElement('span'))
                     .addClass('course-content-card-title')
                     .append($(document.createElement('a'))
-                        .attr('href', '#') // Link
+                        .attr('href', `/course-overview/${i}`) // Link
                         .text(title)))
                 .append($(document.createElement('span'))
                     .addClass(`course-content-card-completion ${completed ? 'completed' : 'uncompleted'}`)
                     .text(`${completed ? 'Completed' : 'Uncompleted'}`))))
-        .append($(document.createElement('div'))
-            .addClass('col-md-2'))
         .appendTo(courseSectionContainer);
     });
 

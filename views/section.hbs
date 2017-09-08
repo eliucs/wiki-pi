@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body class="body-section">
+    {{> navbar}}
+
+    <div class="container-fluid offset-top">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="section-title" class="section-title"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3 section-left">
+          <div class="row">
+            <div class="col-md-12 section-left-card">
+              <div id="btn-mark-completed" class="section-left-card-title">
+                Mark as Completed
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <div id="article-view" class="col-md-12 section-right-card">
+            Test
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      let sectionData = {{{sectionData}}};
+    </script>
+    <script type="text/javascript" src="/js-es6/section.js"></script>
+  </body>
+</html>

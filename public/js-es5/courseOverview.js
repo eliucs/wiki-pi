@@ -9,10 +9,8 @@
  */
 
 $(document).ready(function () {
-    console.log('Test');
-
     // For debugging:
-    console.log(courseOpened);
+    // console.log(courseOpened);
 
     // Helper function to format dates from timestamp:
     var formatDate = function formatDate(timestamp) {
@@ -131,12 +129,12 @@ $(document).ready(function () {
     // Render sections:
     var courseSectionContainer = $('#course-section-container');
     var course = JSON.parse(courseOpened.course);
-    course.forEach(function (section) {
+    course.forEach(function (section, i) {
         var title = section.title;
         var text = section.summarizedText;
         var completed = !!section.completed;
 
-        var s = $(document.createElement('div')).addClass('row course-content-row').append($(document.createElement('div')).addClass('col-md-1')).append($(document.createElement('div')).addClass('col-md-9').append($(document.createElement('div')).addClass('course-content-card').append($(document.createElement('span')).addClass('course-content-card-title').append($(document.createElement('a')).attr('href', '#') // Link
-        .text(title))).append($(document.createElement('span')).addClass("course-content-card-completion " + (completed ? 'completed' : 'uncompleted')).text("" + (completed ? 'Completed' : 'Uncompleted'))))).append($(document.createElement('div')).addClass('col-md-2')).appendTo(courseSectionContainer);
+        var s = $(document.createElement('div')).addClass('row course-content-row').append($(document.createElement('div')).addClass('col-md-12').append($(document.createElement('div')).addClass('course-content-card').append($(document.createElement('span')).addClass('course-content-card-title').append($(document.createElement('a')).attr('href', "/course-overview/" + i) // Link
+        .text(title))).append($(document.createElement('span')).addClass("course-content-card-completion " + (completed ? 'completed' : 'uncompleted')).text("" + (completed ? 'Completed' : 'Uncompleted'))))).appendTo(courseSectionContainer);
     });
 });

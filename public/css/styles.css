@@ -900,3 +900,105 @@ div > div > div.form-group.row.course-form-item > span {
 .course-content-card-title a {
   text-decoration: none;
 }
+
+.body-course-overview {
+  background-color: #f1f1f1; 
+}
+
+.body-info {
+  background-color: #f1f1f1; 
+}
+
+/* Section */
+.body-section {
+  background-color: #f1f1f1; 
+}
+
+.section-title {
+  font-family: 'Roboto Thin';
+  font-size: 2.25em;
+}
+
+.section-left {
+  height: calc(100vh - 190px);
+  overflow-y: scroll;
+  padding-top: 0.5em;
+  padding-right: 2em; 
+}
+
+.section-left-card {
+  background-color: #fff;
+  padding: 1em;
+  margin-left: 1em;
+  margin-bottom: 0.5em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  cursor: pointer;
+}
+
+.section-left-card:hover {
+  color: #7997a1;
+}
+
+.section-left-card-title {
+  font-family: 'Roboto Light';
+  font-size: 1em;
+}
+
+.section-right-card {
+  position: absolute;
+  width: calc(70vw);
+  height: calc(100vh - 190px);
+  overflow-y: scroll;
+  padding: 2em;
+  margin-left: 0em;
+  margin-right: 1em;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  display: block;
+}
+
+@media all and (max-width: 768px) {
+  .section-right-card  {
+    margin-top: 1em;
+    margin-left: 0em;
+  }
+}
+
+.section-right-card h1,
+.section-right-card h2,
+.section-right-card h3,
+.section-right-card h4,
+.section-right-card h5,
+.section-right-card h6 {
+  font-family: 'Roboto Light';
+}
+
+.section-right-card h1 {
+  font-size: 2.2em;
+}
+
+.section-right-card h2 {
+  font-size: 1.8em;
+}
+
+.section-right-card h3 {
+  font-size: 1.4em;
+}
+
+.section-right-card h4 {
+  font-size: 1.3em;
+}
+
+.section-right-card h5 {
+  font-size: 1.2em;
+}
+
+.section-right-card h6 {
+  font-size: 1.1em;
+}
+
+.section-right-card p {
+  font-family: 'Roboto Light';
+  font-size: 1em;
+}
