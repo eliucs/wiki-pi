@@ -21,6 +21,7 @@ const { retrieveSavedCourses } = require('./utils/retrieveSavedCourses');
 const { saveCreatedCourse } = require('./utils/saveCreatedCourse');
 const { searchArticles } = require('./utils/searchArticles');
 const { searchQueryIndex } = require('./utils/searchQueryIndex');
+const { updateTimeSpent } = require('./utils/updateTimeSpent');
 
 // Configure markdown renderer:
 marked.setOptions({
@@ -316,8 +317,33 @@ app.get('/course-overview', (req, res) => {
   // For debugging:
   // console.log(req.session.courseOpened);
 
-  return res.render('course-overview.hbs', {
-    courseOpened: JSON.stringify(req.session.courseOpened)
+  // Update time:
+  // Only update this value if it has already been initialized, and then 
+  // reset the timestamp:
+  updateTimeSpent({
+    courseTime: req.session.courseTime,
+    courseID: req.session.courseOpened.id
+  })
+  .then((result) => {
+    req.session.courseTime = result;
+  })
+  .catch((error) => {
+    console.log(error);
+    if (error.nullCourseTime) {
+      console.log('Error: null course time.');
+    } else if (error.noTimeDifference) {
+      console.log('Error: no time difference.');
+    } else if (error.nullCourseID) {
+      console.log('Error: null course ID.');
+    } else if (error.updatingTimeDB) {
+      console.log('Error: updating time to database.');
+    }
+  })
+  .then(() => {
+    console.log(req.session.courseTime);
+    return res.render('course-overview.hbs', {
+      courseOpened: JSON.stringify(req.session.courseOpened)
+    });
   });
 });
 
@@ -339,6 +365,12 @@ app.get('/course-overview/:id', (req, res) => {
     return res.redirect('/course-overview');
   }
 
+  // Update time spent:
+  req.session.courseTime = {
+    timestampContent: Date.now()
+  };
+  console.log(req.session.courseTime);
+
   return res.render('section.hbs', {
     sectionData: JSON.stringify(sections[req.params.id]),
     sectionID: req.params.id
@@ -354,7 +386,7 @@ app.post('/course-completed', (req, res) => {
   // For debugging:
   // console.log('Course ID:', req.session.courseOpened.id);
   // console.log('Section ID:', body.sectionID);
-  console.log(req.session.courseOpened);
+  // console.log(req.session.courseOpened);
 
   markSectionCompleted({
     courseData: req.session.courseOpened,
@@ -364,7 +396,7 @@ app.post('/course-completed', (req, res) => {
   .then((result) => {
     // After the database is updated, update the data in the session:
     req.session.courseOpened = result;
-    // console.log(req.session.courseOpened);
+    console.log(req.session.courseOpened);
 
     return res.status(200).send({
       courseUpdated: true

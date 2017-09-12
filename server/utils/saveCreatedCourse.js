@@ -44,6 +44,8 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
         let totalNumSections = courseResults.length;
         let completedNumSections = 0;
         let completedSections = JSON.stringify([]);
+        let timeSpentContent = 0;
+        let timeSpentTests = 0;
 
         // For debugging:
         // console.log(JSON.stringify(courseResults, undefined, 2));
@@ -56,7 +58,9 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
                 course TEXT, 
                 totalNumSections INTEGER, 
                 completedNumSections INTEGER, 
-                completedSections TEXT)`, 
+                completedSections TEXT,
+                timeSpentContent INTEGER,
+                timeSpentTests INTEGER)`, 
                 (err, results) => {
             
             // Check if there was an error with creating new table 
@@ -67,9 +71,10 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
                 return;
             }
             
-            db.run(`INSERT INTO courses_table VALUES (?, ?, ?, ?, ?, ?)`, 
+            db.run(`INSERT INTO courses_table VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, 
                     [title, id, course, totalNumSections, 
-                     completedNumSections, completedSections],
+                     completedNumSections, completedSections, 
+                     timeSpentContent, timeSpentTests],
                     (err, results) => {
                 
                 // Check if there was an error inserting into table while
@@ -82,7 +87,8 @@ const COURSE_LOCATION = path.resolve('/Volumes/WIKI-DRIVE/courses/courses.db');
     
                 // Confirm that data has been inserted correctly:
                 db.all(`SELECT title, id, course, totalNumSections, 
-                        completedNumSections, completedSections 
+                        completedNumSections, completedSections, 
+                        timeSpentContent, timeSpentTests 
                         FROM courses_table 
                         WHERE id=${id}
                         LIMIT 1`, (err, temp) => {
