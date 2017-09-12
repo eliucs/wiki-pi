@@ -8,6 +8,9 @@
  **/
 
  $(document).ready(() => {
+    // For debugging:
+    // console.log(savedCourses);
+
      // Display empty courses if there are no courses, otherwise show the 
      // open course container:
      if (typeof(savedCourses) === 'undefined' || savedCourses.length === 0) {

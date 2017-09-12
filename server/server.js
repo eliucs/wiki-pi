@@ -14,6 +14,7 @@ const session = require('express-session');
 const { createArticleDataList } = require('./utils/createArticleDataList');
 const { deleteCourse } = require('./utils/deleteCourse');
 const { isNumber } = require('./utils/isNumber');
+const { markSectionCompleted } = require('./utils/markSectionCompleted');
 const { normalizePercentage } = require('./utils/normalizePercentage');
 const { openCourse } = require('./utils/openCourse');
 const { retrieveSavedCourses } = require('./utils/retrieveSavedCourses');
@@ -339,7 +340,48 @@ app.get('/course-overview/:id', (req, res) => {
   }
 
   return res.render('section.hbs', {
-    sectionData: JSON.stringify(sections[req.params.id])
+    sectionData: JSON.stringify(sections[req.params.id]),
+    sectionID: req.params.id
+  });
+});
+
+// GET /course-completed
+app.post('/course-completed', (req, res) => {
+  let body = _.pick(req.body, [
+    'sectionID'
+  ]);
+
+  // For debugging:
+  // console.log('Course ID:', req.session.courseOpened.id);
+  // console.log('Section ID:', body.sectionID);
+  console.log(req.session.courseOpened);
+
+  markSectionCompleted({
+    courseData: req.session.courseOpened,
+    courseID: req.session.courseOpened.id,
+    sectionID: body.sectionID
+  })
+  .then((result) => {
+    // After the database is updated, update the data in the session:
+    req.session.courseOpened = result;
+    // console.log(req.session.courseOpened);
+
+    return res.status(200).send({
+      courseUpdated: true
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    if (err.nullCourseData) {
+      console.log('Error: course data is null.');
+    } else if (err.nullCourseID) {
+      console.log('Error: course ID is null.');
+    } else if (err.nullSectionID) {
+      console.log('Error: section ID is null.');
+    } else if (err.updatingCourseDB) {
+      console.log('Error: problem updating database.');
+    }
+    return res.status(400).send(err);
   });
 });
 
