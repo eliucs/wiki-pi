@@ -332,7 +332,7 @@ app.get('/course-overview/:id', (req, res) => {
   }
 
   const sections = JSON.parse(req.session.courseOpened.course);
-  if (req.params.id >= sections.length && req.params.id < 0) {
+  if (!(req.params.id < sections.length && req.params.id >= 0)) {
     console.log(req.params.id);
     console.log('Redirecting: course ID not valid.');
     return res.redirect('/course-overview');
