@@ -12,6 +12,17 @@ modified algorithm using tf-idf (term frequency-inverse document frequence)
 to perform text summarization (which is explained in the section below), 
 and generate "course content".
 
+<table align="center">
+    <tr>
+        <td>
+            <img src="https://i.imgur.com/n3STroV.png" width="400px">
+        </td>
+        <td>
+            <img src="https://i.imgur.com/whmK84I.png" width="400px">
+        </td>
+    </tr>
+</table>
+
 Considering the low cost of Raspberry Pi's themselves (~$35), and how the
 entirety of Wikipedia could be loaded onto a USB, the primary goal of this
 project is to create an educational resource that could be distributed to
@@ -19,17 +30,6 @@ disadvantaged schools around the world with little to no internet access.
 
 This project is built around the Raspberry Pi 3 Model B, which can be found on
 Amazon [here](https://www.amazon.com/Raspberry-Pi-RASPBERRYPI3-MODB-1GB-Model-Board/dp/B01CD5VC92/ref=sr_1_2?ie=UTF8&qid=1503462178&sr=8-2&keywords=raspberry+pi+3).
-
-<table align="center">
-    <tr>
-        <td>
-            <img src="https://i.imgur.com/n3STroV.png" width="384px">
-        </td>
-        <td>
-            <img src="https://i.imgur.com/whmK84I.png" width="384px">
-        </td>
-    </tr>
-</table>
 
 ## Starting Up
 
