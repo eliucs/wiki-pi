@@ -325,7 +325,8 @@ app.get('/course-overview', (req, res) => {
     courseID: req.session.courseOpened.id
   })
   .then((result) => {
-    req.session.courseTime = result;
+    req.session.courseTime = result.courseTime;
+    req.session.courseOpened.timeSpentContent = result.timeSpentContent;
   })
   .catch((error) => {
     console.log(error);

@@ -47,7 +47,7 @@ $(document).ready(function () {
     var dataTimeSpent = {
         labels: ['Content', 'Tests'],
         datasets: [{
-            data: [1, 0],
+            data: [courseOpened.timeSpentContent, 0],
             backgroundColor: ['rgba(156, 39, 176, 0.2)', 'rgba(33, 150, 243, 0.2)'],
             borderColor: ['rgba(156, 39, 176, 1)', 'rgba(33, 150, 243, 1)'],
             borderWidth: 1
