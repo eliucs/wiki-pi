@@ -9,8 +9,7 @@ traverses them based on user-defined text similarity and relevance thresholds
 to aggregate related articles, and then uses natural language processing 
 techniques/algorithms including Porter's Stemmer to normalize text and a 
 modified algorithm using tf-idf (term frequency-inverse document frequency)
-to perform text summarization (which is explained in the section below), 
-and generate "course content".
+to perform text summarization and generate "course content".
 
 <table align="center">
     <tr>
